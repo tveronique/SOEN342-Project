@@ -1,3 +1,4 @@
+package com.concordia.soen342;
 public class Space {
     //attributes
     private String type;
