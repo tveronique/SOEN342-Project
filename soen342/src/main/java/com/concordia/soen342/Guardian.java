@@ -1,3 +1,4 @@
+package com.concordia.soen342;
 public class Guardian extends Client{
     //attributes
     private String childName;

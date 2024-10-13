@@ -1,11 +1,9 @@
+package com.concordia.soen342;
 public class Administrator extends Person{
     public static Administrator admin;
 
     private Administrator(String n, long pn, String pw){
-        super();
-        setName(n);
-        setPhoneNumber(pn);
-        setPassword(pw);
+        super(n, pn, pw, "ADMINISTRATOR");
     }
 
     public static synchronized Administrator getAdmin(String n, long pn, String pw){
