@@ -1,3 +1,4 @@
+package com.concordia.soen342;
 public class Lesson{
     //attributes
     private boolean isPriavte; //if true then it's private, if false then it's group
