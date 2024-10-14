@@ -1,5 +1,6 @@
 package com.concordia.soen342;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Person{
     //MongoDB ID
     @Id
-    private String id;
+    private ObjectId id;
 
     //ATTRIBUTES
     private String name;
