@@ -1,7 +1,10 @@
 package com.concordia.soen342;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends MongoRepository<Person, String> {
-    Person findByPhoneNumber(long phoneNumber);
+@Repository
+public interface UserRepository extends MongoRepository<User, ObjectId> {
+    // Person findByPhoneNumber(long phoneNumber);
 }

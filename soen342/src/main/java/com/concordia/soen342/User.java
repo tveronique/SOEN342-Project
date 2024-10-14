@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")  // MongoDB collection
 
-public class Person{
+public class User{
     //MongoDB ID
     @Id
     private ObjectId id;
@@ -20,10 +20,10 @@ public class Person{
     //OPERATIONS
 
     //default constructor
-    public Person(){}
+    public User(){}
 
     //parameterized constructor
-    public Person(String name, long phoneNumber, String password, String role) {
+    public User(String name, long phoneNumber, String password, String role) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.password = password;
