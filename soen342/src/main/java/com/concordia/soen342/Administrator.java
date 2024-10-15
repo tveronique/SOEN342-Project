@@ -1,5 +1,5 @@
 package com.concordia.soen342;
-public class Administrator extends Person{
+public class Administrator extends User{
     public static Administrator admin;
 
     private Administrator(String n, long pn, String pw){

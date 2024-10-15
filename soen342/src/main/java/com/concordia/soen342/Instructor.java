@@ -1,7 +1,7 @@
 package com.concordia.soen342;
 import java.util.Vector;
 
-public class Instructor extends Person{
+public class Instructor extends User{
 
     //attributes
     private Vector<String> specialization = new Vector<String>();
