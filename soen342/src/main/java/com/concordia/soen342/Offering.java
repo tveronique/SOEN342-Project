@@ -17,9 +17,11 @@ import lombok.NoArgsConstructor;
 public class Offering{
     @Id
     private ObjectId id;
-    private String body;
+    private Location location;
+    private Lesson lesson;
     
-    public Offering(String body) {
-        this.body = body;
+    public Offering(Location lo, Lesson le) {
+        this.location = lo;
+        this.lesson = le;
     }
 }

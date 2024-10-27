@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 100px;
+  height: 250px;
   pointer-events: none;
   margin-right: 20px;
 }
@@ -16,14 +16,31 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 130px;
-  display: flex;            /* Use flexbox to align logo and title in a row */
-  flex-direction: row;       /* Aligns elements in a row */
-  align-items: center;       /* Centers them vertically */
-  justify-content: flex-start; /* Pushes items to the left */
+  min-height: 200px;
+  display: flex;         
+  flex-direction: column;     
+  align-items: center;    
+  justify-content: center;
   padding-left: 20px; 
-  font-size: calc(50px + 2vmin);
+  padding-bottom: 20px;
   color: white;
+}
+
+.App-header .header-row {
+  display: flex;                 
+  align-items: center;           
+}
+
+.App-header .header-row-list {
+  display: flex;                  
+  align-items: center; 
+  margin-top: 50px;
+  margin-bottom: 50px;
+  gap: 100px;          
+}
+
+.header-row > h1{
+  font-size: 100pt;
 }
 
 .App-link {
@@ -40,10 +57,11 @@
 }
 
 .navbar-custom {
-  padding: 0; /* Remove padding */
+  padding: 0;
   margin: 0;
+  position: sticky;
 }
 
 .nav-item {
-  margin: 0 50px; /* Adds a bit of space between items */
+  margin: 0 50px;
 }

@@ -10,10 +10,41 @@ public class Location {
     //operations
     public Location(){}
 
-    public Location(String c, Vector<Space> sp, Vector<Schedule> sc){
+    public Location(String c, Space sp, Schedule sc){
         this.city = c;
-        this.availableSpaces = sp;
-        this.schedule = sc;
+        availableSpaces.add(sp);
+        schedule.add(sc);
     }
-    
+
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Vector<Space> getAvailableSpaces() {
+        return this.availableSpaces;
+    }
+
+    public void setAvailableSpaces(Vector<Space> availableSpaces) {
+        this.availableSpaces = availableSpaces;
+    }
+
+    public Vector<Schedule> getSchedule() {
+        return this.schedule;
+    }
+
+    public void setSchedule(Vector<Schedule> schedule) {
+        this.schedule = schedule;
+    }
+
+    public void addSchedule(Schedule s){
+        schedule.add(s);
+    }
+
+    public void addSpace(Space s){
+        availableSpaces.add(s);
+    }
 }
