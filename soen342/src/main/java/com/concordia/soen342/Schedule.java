@@ -17,4 +17,37 @@ public class Schedule{
         this.startDate = sd;
         this.endDate = ed;
     }
+
+    public String getDay() {
+        return this.day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public ArrayList<String> getSlots() {
+        return this.slots;
+    }
+
+    public void setSlots(ArrayList<String> slots) {
+        this.slots = slots;
+    }
+
+    public LocalDate getStartDate() {
+        return this.startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return this.endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
 }

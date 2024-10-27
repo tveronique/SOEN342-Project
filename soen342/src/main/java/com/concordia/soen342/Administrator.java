@@ -12,4 +12,21 @@ public class Administrator extends User{
         }
         return admin;
     }
+
+    // public Schedule creatSchedule(){
+
+    // }
+
+    public Space createSpace(String type){
+        return new Space(type);
+    }
+
+    public Location createLocation(String city, Space space, Schedule sched){
+        return new Location(city, space, sched);
+    }
+
+    public Offering createOffering(Location loc, Lesson l){
+        Offering o = new Offering(loc, l);
+        return o;
+    }
 }
