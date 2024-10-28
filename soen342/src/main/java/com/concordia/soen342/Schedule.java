@@ -4,15 +4,15 @@ import java.time.*;
 public class Schedule{
     //attributes
     private String day;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private LocalDate startDate;
-    private LocalDate endDate; 
+    private String startTime;
+    private String endTime;
+    private String startDate;
+    private String endDate; 
 
     public Schedule(){};
 
     //constructor
-    public Schedule(String d, LocalTime st, LocalTime et, LocalDate sd, LocalDate ed){
+    public Schedule(String d, String st, String et, String sd, String ed){
         this.day = d;
         this.startTime = st;
         this.endTime = et;
@@ -21,43 +21,45 @@ public class Schedule{
     }
 
     public String getDay() {
-        return this.day;
+        return day;
     }
 
     public void setDay(String day) {
         this.day = day;
     }
 
-    public LocalTime getStartTime() {
-        return this.startTime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public LocalTime getEndTime() {
-        return this.endTime;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setEndTime(LocalTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public LocalDate getStartDate() {
-        return this.startDate;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
-        return this.endDate;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    
 
 }
