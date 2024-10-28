@@ -25,8 +25,8 @@ public class Administrator extends User{
         return new Space(type);
     }
 
-    public Location createLocation(String city, Space space, Schedule sched){
-        return new Location(city, space, sched);
+    public Location createLocation(String name, String city, Space space, Schedule sched){
+        return new Location(name, city, space, sched);
     }
 
     public Offering createOffering(Location loc, Lesson l){
