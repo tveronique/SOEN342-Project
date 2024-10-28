@@ -11,7 +11,7 @@ public class Schedule{
 
     public Schedule(){};
 
-    public Schedule(String d,String s, LocalTime st, LocalTime et, LocalDate sd, LocalDate ed){
+    public Schedule(String d, LocalTime st, LocalTime et, LocalDate sd, LocalDate ed){
         this.day = d;
         this.startTime = st;
         this.endTime = et;
