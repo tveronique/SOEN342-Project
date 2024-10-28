@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import '../App.css'
+import '../App.css';
 
 const CreateOfferingForm = () => {
   const [lessonType, setLessonType] = useState('');
@@ -9,7 +9,8 @@ const CreateOfferingForm = () => {
   const [city, setCity] = useState('');
   const [spaceType, setSpaceType] = useState('');
   const [day, setDay] = useState('');
-  const [slots, setSlots] = useState(['']); // Initial empty slot
+  const [startTime, setStartTime] = useState(''); // Changed from slots to startTime
+  const [endTime, setEndTime] = useState(''); // Changed from slots to endTime
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [message, setMessage] = useState('');
@@ -17,57 +18,32 @@ const CreateOfferingForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check date validity
     if (new Date(startDate) > new Date(endDate)) {
-        setMessage('End date cannot be before the start date.');
-        return;
+      setMessage('End date cannot be before the start date.');
+      return;
     }
 
+    if (startTime >= endTime) {
+      setMessage('End time must be after start time.');
+      return;
+    }
+
+    // Create space, location, lesson, and schedule objects
     try {
-        // Create space
-        const spaceResponse = await axios.post('/api/spaces', { type: spaceType });
+      const spaceResponse = await axios.post('/api/spaces', { type: spaceType });
+      const locationResponse = await axios.post('/api/locations', { city, spaceId: spaceResponse.data.id });
+      const scheduleResponse = await axios.post('/api/schedules', { day, startTime, endTime, startDate, endDate });
+      const lessonResponse = await axios.post('/api/lessons', { type: lessonType, isPrivate });
+      const offeringResponse = await axios.post('/api/offerings', {
+        locationId: locationResponse.data.id,
+        lessonId: lessonResponse.data.id,
+        scheduleId: scheduleResponse.data.id,
+      });
 
-        // Create location
-        const locationResponse = await axios.post('/api/locations', {
-            city,
-            spaceId: spaceResponse.data.id, // Assuming you need the space ID
-        });
-
-        // Create schedule
-        const scheduleResponse = await axios.post('/api/schedules', {
-            day,
-            slots,
-            startDate,
-            endDate,
-        });
-
-        // Create lesson
-        const lessonResponse = await axios.post('/api/lessons', {
-            type: lessonType,
-            isPrivate,
-        });
-
-        // Create offering using the created IDs
-        const offeringResponse = await axios.post('/api/offerings', {
-            locationId: locationResponse.data.id,
-            lessonId: lessonResponse.data.id,
-            scheduleId: scheduleResponse.data.id,
-        });
-
-        setMessage(`Offering created successfully! ID: ${offeringResponse.data.id}`);
+      setMessage(`Offering created successfully! ID: ${offeringResponse.data.id}`);
     } catch (error) {
-        setMessage('Failed to create offering: ' + error.message);
+      setMessage('Failed to create offering: ' + error.message);
     }
-};
-
-  const handleAddSlot = () => {
-    setSlots([...slots, '']); // Add an empty slot field
-  };
-
-  const handleSlotChange = (index, value) => {
-    const newSlots = [...slots];
-    newSlots[index] = value; // Update the slot value
-    setSlots(newSlots);
   };
 
   return (
@@ -92,7 +68,7 @@ const CreateOfferingForm = () => {
           />
           Private Lesson
         </label>
-        <label style={{ marginLeft: '10px'}}>
+        <label style={{ marginLeft: '10px' }}>
           <input
             type="checkbox"
             checked={!isPrivate}
@@ -101,9 +77,6 @@ const CreateOfferingForm = () => {
           />
           Group Lesson
         </label>
-      </div>
-      <div>
-        
       </div>
       <div className="form-group">
         <label className="block text-gray-700">Space Type:</label>
@@ -136,39 +109,21 @@ const CreateOfferingForm = () => {
         />
       </div>
       <div className="form-group">
-        <label className="block text-gray-700">Slots:</label>
-        {slots.map((slot, index) => (
-          <div key={index} className="flex items-center mb-2">
-            <input
-              type="text"
-              value={slot}
-              onChange={(e) => handleSlotChange(index, e.target.value)}
-              placeholder={`Slot ${index + 1}`}
-              required
-              className="mt-1 p-2 border rounded w-full"
-            />
-          </div>
-        ))}
-        <Button type="button" onClick={handleAddSlot} variant="primary">
-          Add Slot
-        </Button>
-      </div>
-      <div className="form-group">
-        <label className="block text-gray-700">Start Date:</label>
+        <label className="block text-gray-700">Start Time:</label>
         <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
+          type="time"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
           required
           className="mt-1 p-2 border rounded w-full"
         />
       </div>
       <div className="form-group">
-        <label className="block text-gray-700">End Date:</label>
+        <label className="block text-gray-700">End Time:</label>
         <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
+          type="time"
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
           required
           className="mt-1 p-2 border rounded w-full"
         />
