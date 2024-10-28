@@ -157,5 +157,4 @@ const CreateOfferingForm = () => {
     </form>
   );
 };
-
 export default CreateOfferingForm;
