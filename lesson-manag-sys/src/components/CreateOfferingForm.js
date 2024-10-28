@@ -32,17 +32,19 @@ const CreateOfferingForm = () => {
 
     try {
       // Create space, location, lesson, and schedule objects
-      const spaceResponse = await axios.post('/api/spaces', { type: spaceType });
-      const locationResponse = await axios.post('/api/locations', { city, spaceId: spaceResponse.data.id });
-      const scheduleResponse = await axios.post('/api/schedules', { day, startTime, endTime, startDate, endDate });
-      const lessonResponse = await axios.post('/api/lessons', { type: lessonType, isPrivate });
-      
+      const spaceResponse = await axios.post('/api/login', { type: spaceType });
+      const locationResponse = await axios.post('/api/login', { city, spaceId: spaceResponse.data.id });
+      const scheduleResponse = await axios.post('/api/login', { day, startTime, endTime, startDate, endDate });
+      const lessonResponse = await axios.post('/api/login', { type: lessonType, isPrivate });
+
       // Create offering
-      const offeringResponse = await axios.post('/api/offerings', {
+      const offeringResponse = await axios.post('/api/login', {
         locationId: locationResponse.data.id,
         lessonId: lessonResponse.data.id,
         scheduleId: scheduleResponse.data.id,
       });
+      
+      console.log(offeringResponse);
 
       setMessage(`Offering created successfully! ID: ${offeringResponse.data.id}`);
     } catch (error) {
