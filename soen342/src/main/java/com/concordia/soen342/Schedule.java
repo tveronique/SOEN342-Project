@@ -1,11 +1,11 @@
 package com.concordia.soen342;
-import java.util.ArrayList;
 import java.time.*;
 
 public class Schedule{
     //attributes
     private String day;
-    private ArrayList<String> slots = new ArrayList<>();
+    private LocalTime startTime;
+    private LocalTime endTime;
     private LocalDate startDate;
     private LocalDate endDate; 
 
@@ -13,7 +13,7 @@ public class Schedule{
 
     public Schedule(String d,String s, LocalDate sd, LocalDate ed){
         this.day = d;
-        slots.add(s);
+        
         this.startDate = sd;
         this.endDate = ed;
     }
@@ -26,12 +26,20 @@ public class Schedule{
         this.day = day;
     }
 
-    public ArrayList<String> getSlots() {
-        return this.slots;
+    public LocalTime getStartTime() {
+        return this.startTime;
     }
 
-    public void setSlots(ArrayList<String> slots) {
-        this.slots = slots;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return this.endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
     public LocalDate getStartDate() {
