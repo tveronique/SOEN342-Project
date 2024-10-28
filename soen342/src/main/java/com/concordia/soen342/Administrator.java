@@ -1,4 +1,7 @@
 package com.concordia.soen342;
+
+import java.time.LocalDate;
+
 public class Administrator extends User{
     public static Administrator admin;
 
@@ -13,9 +16,9 @@ public class Administrator extends User{
         return admin;
     }
 
-    // public Schedule creatSchedule(){
-
-    // }
+    public Schedule creatSchedule(String day, String slot, LocalDate start, LocalDate end){
+        return new Schedule(day, slot, start,end);
+    }
 
     public Space createSpace(String type){
         return new Space(type);

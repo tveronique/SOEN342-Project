@@ -11,9 +11,9 @@ public class Schedule{
 
     public Schedule(){};
 
-    public Schedule(String d, ArrayList<String> s, LocalDate sd, LocalDate ed){
+    public Schedule(String d,String s, LocalDate sd, LocalDate ed){
         this.day = d;
-        this.slots = s;
+        slots.add(s);
         this.startDate = sd;
         this.endDate = ed;
     }
