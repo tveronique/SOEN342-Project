@@ -20,7 +20,7 @@ public class OfferingController {
                 // Create the objects using the data from the DTO
                 Space space = new Space(dto.getSpaceType());
                 Schedule schedule = new Schedule(dto.getDay(), dto.getStartTime(), dto.getEndTime(), dto.getStartDate(), dto.getEndDate());
-                Location location = new Location(dto.getCity(), space, schedule);
+                Location location = new Location(dto.getLocationName(), dto.getCity(), space, schedule);
                 Lesson lesson = new Lesson(dto.getIsPrivate(), dto.getLessonType());
 
                 Offering offering = new Offering(location, lesson);
@@ -61,4 +61,3 @@ public class OfferingController {
     //     Offering createdOffering = admin.createOffering(offering.getLocation(), offering.getLesson());
     //     return ResponseEntity.ok(createdOffering);
     // }
-}
