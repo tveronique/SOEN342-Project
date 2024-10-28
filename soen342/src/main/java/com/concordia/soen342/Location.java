@@ -3,6 +3,7 @@ import java.util.Vector;
 
 public class Location {
     //attributes
+    private String name;
     private String city;
     private Vector<Space> availableSpaces = new Vector<Space>();
     private Vector<Schedule> schedule = new Vector<Schedule>();
@@ -10,11 +11,22 @@ public class Location {
     //operations
     public Location(){}
 
-    public Location(String c, Space sp, Schedule sc){
+    public Location(String name, String c, Space sp, Schedule sc){
+        this.name = name;
         this.city = c;
         availableSpaces.add(sp);
         schedule.add(sc);
     }
+
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public String getCity() {
         return this.city;

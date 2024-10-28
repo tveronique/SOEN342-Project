@@ -4,16 +4,26 @@ import axios from 'axios';
 import '../App.css';
 
 const CreateOfferingForm = () => {
-  const [lessonType, setLessonType] = useState('');
-  const [isPrivate, setIsPrivate] = useState(false);
-  const [city, setCity] = useState('');
-  const [spaceType, setSpaceType] = useState('');
-  const [day, setDay] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [message, setMessage] = useState('');
+    const [formData, setFormData] = useState({
+        lessonType: '',
+        isPrivate: false,
+        spaceType: '',
+        locationName: '',
+        city: '',
+        day: '',
+        startTime: '',
+        endTime: '',
+        startDate: '',
+        endDate: ''
+      });
+    
+      const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: type === 'checkbox' ? checked : value,
+        }));
+      };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,23 +41,12 @@ const CreateOfferingForm = () => {
     }
 
     try {
-      // Create space, location, lesson, and schedule objects
-      const spaceResponse = await axios.post('/api/spaces', { type: spaceType });
-      const locationResponse = await axios.post('/api/locations', { city, spaceId: spaceResponse.data.id });
-      const scheduleResponse = await axios.post('/api/schedules', { day, startTime, endTime, startDate, endDate });
-      const lessonResponse = await axios.post('/api/lessons', { type: lessonType, isPrivate });
-      
-      // Create offering
-      const offeringResponse = await axios.post('/api/offerings', {
-        locationId: locationResponse.data.id,
-        lessonId: lessonResponse.data.id,
-        scheduleId: scheduleResponse.data.id,
-      });
-
-      setMessage(`Offering created successfully! ID: ${offeringResponse.data.id}`);
+      // Sends form data to the Spring Boot backend
+      const response = await axios.post('/api/offerings/create', formData);
+      console.log("Offering created successfully:", response.data);
     } catch (error) {
-      setMessage('Failed to create offering: ' + error.message);
-    }
+      console.error("Error creating offering:", error);
+    };
   };
 
   return (
@@ -56,38 +55,40 @@ const CreateOfferingForm = () => {
         <label className='form-group'>Lesson Type:</label>
         <input
           type="text"
-          value={lessonType}
-          onChange={(e) => setLessonType(e.target.value)}
+          name="lessonType"
+          value={formData.lessonType}
+          onChange={handleChange}
           required
           className="mt-1 p-2 border rounded w-full"
         />
       </div>
-      <div>
-        <label className="block text-gray-700">
-          <input
-            type="checkbox"
-            checked={isPrivate}
-            onChange={(e) => setIsPrivate(e.target.checked)}
-            className="mr-2"
-          />
-          Private Lesson
-        </label>
-        <label style={{ marginLeft: '10px' }}>
-          <input
-            type="checkbox"
-            checked={!isPrivate}
-            onChange={(e) => setIsPrivate(!e.target.checked)}
-            className="mr-2"
-          />
-          Group Lesson
-        </label>
+      <div className="form-group">
+        <label>Private Lesson:</label>
+        <input
+          type="checkbox"
+          name="isPrivate"
+          checked={formData.isPrivate}
+          onChange={handleChange}
+        />
       </div>
       <div className="form-group">
         <label className="block text-gray-700">Space Type:</label>
         <input
           type="text"
-          value={spaceType}
-          onChange={(e) => setSpaceType(e.target.value)}
+          name="spaceType"
+          value={formData.spaceType}
+          onChange={handleChange}
+          required
+          className="mt-1 p-2 border rounded w-full"
+        />
+      </div>
+      <div className="form-group">
+        <label className='form-group'>Location Name:</label>
+        <input
+          type="text"
+          name="locationName"
+          value={formData.locationName}
+          onChange={handleChange}
           required
           className="mt-1 p-2 border rounded w-full"
         />
@@ -96,8 +97,9 @@ const CreateOfferingForm = () => {
         <label className="block text-gray-700">City:</label>
         <input
           type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
           required
           className="mt-1 p-2 border rounded w-full"
         />
@@ -106,8 +108,9 @@ const CreateOfferingForm = () => {
         <label className="block text-gray-700">Day:</label>
         <input
           type="text"
-          value={day}
-          onChange={(e) => setDay(e.target.value)}
+          name="day"
+          value={formData.day}
+          onChange={handleChange}
           required
           className="mt-1 p-2 border rounded w-full"
         />
@@ -116,8 +119,9 @@ const CreateOfferingForm = () => {
         <label className="block text-gray-700">Start Time:</label>
         <input
           type="time"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
+          name="startTime"
+          value={formData.startTime}
+          onChange={handleChange}
           required
           className="mt-1 p-2 border rounded w-full"
         />
@@ -126,8 +130,9 @@ const CreateOfferingForm = () => {
         <label className="block text-gray-700">End Time:</label>
         <input
           type="time"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
+          name="endTime"
+          value={formData.endTime}
+          onChange={handleChange}
           required
           className="mt-1 p-2 border rounded w-full"
         />
@@ -136,8 +141,9 @@ const CreateOfferingForm = () => {
         <label className="block text-gray-700">Start Date:</label>
         <input
           type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
+          name="startDate"
+          value={formData.startDate}
+          onChange={handleChange}
           required
           className="mt-1 p-2 border rounded w-full"
         />
@@ -146,14 +152,15 @@ const CreateOfferingForm = () => {
         <label className="block text-gray-700">End Date:</label>
         <input
           type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
+          name="endDate"
+          value={formData.endDate}
+          onChange={handleChange}
           required
           className="mt-1 p-2 border rounded w-full"
         />
       </div>
       <Button type="submit" variant="outline-primary" size="lg">Create Offering</Button>
-      {message && <p className="mt-4 text-red-500">{message}</p>}
+      {/* {message && <p className="mt-4 text-red-500">{message}</p>} */}
     </form>
   );
 };
