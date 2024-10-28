@@ -9,8 +9,8 @@ const CreateOfferingForm = () => {
   const [city, setCity] = useState('');
   const [spaceType, setSpaceType] = useState('');
   const [day, setDay] = useState('');
-  const [startTime, setStartTime] = useState(''); // Changed from slots to startTime
-  const [endTime, setEndTime] = useState(''); // Changed from slots to endTime
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [message, setMessage] = useState('');
@@ -18,22 +18,26 @@ const CreateOfferingForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate dates
     if (new Date(startDate) > new Date(endDate)) {
       setMessage('End date cannot be before the start date.');
       return;
     }
 
+    // Validate times
     if (startTime >= endTime) {
       setMessage('End time must be after start time.');
       return;
     }
 
-    // Create space, location, lesson, and schedule objects
     try {
+      // Create space, location, lesson, and schedule objects
       const spaceResponse = await axios.post('/api/spaces', { type: spaceType });
       const locationResponse = await axios.post('/api/locations', { city, spaceId: spaceResponse.data.id });
       const scheduleResponse = await axios.post('/api/schedules', { day, startTime, endTime, startDate, endDate });
       const lessonResponse = await axios.post('/api/lessons', { type: lessonType, isPrivate });
+      
+      // Create offering
       const offeringResponse = await axios.post('/api/offerings', {
         locationId: locationResponse.data.id,
         lessonId: lessonResponse.data.id,
@@ -124,6 +128,26 @@ const CreateOfferingForm = () => {
           type="time"
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
+          required
+          className="mt-1 p-2 border rounded w-full"
+        />
+      </div>
+      <div className="form-group">
+        <label className="block text-gray-700">Start Date:</label>
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          required
+          className="mt-1 p-2 border rounded w-full"
+        />
+      </div>
+      <div className="form-group">
+        <label className="block text-gray-700">End Date:</label>
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
           required
           className="mt-1 p-2 border rounded w-full"
         />
