@@ -11,6 +11,7 @@ public class Schedule{
 
     public Schedule(){};
 
+    //constructor
     public Schedule(String d, LocalTime st, LocalTime et, LocalDate sd, LocalDate ed){
         this.day = d;
         this.startTime = st;
