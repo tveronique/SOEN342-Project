@@ -23,6 +23,7 @@ function App() {
 
       const response = await api.get("/api/v1/users");
       console.log(response.data);
+
       setUsers(response.data);
 
     } catch(err){

@@ -7,6 +7,7 @@ import com.concordia.soen342.dto.OfferingDTO;
 
 @RestController
 @RequestMapping("/api/offerings")
+@CrossOrigin(origins = "*")
 public class OfferingController {
     @Autowired
     private OfferingService offeringService;
@@ -14,7 +15,7 @@ public class OfferingController {
 
     // private final Administrator admin = Administrator.getAdmin("adminName", 1234567890L, "password");
 
-    @PostMapping("/create")
+        @PostMapping("/create")
         public ResponseEntity<?> createOffering(@RequestBody OfferingDTO dto) {
             try {
                 // Create the objects using the data from the DTO
@@ -30,6 +31,11 @@ public class OfferingController {
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating offering");
             }
+        }
+
+        @GetMapping
+        public ResponseEntity<List<Offering>> getOfferings() {
+            return new ResponseEntity<List<Offering>>(offeringService.allOfferings(), HttpStatus.OK);
         }
     }
 

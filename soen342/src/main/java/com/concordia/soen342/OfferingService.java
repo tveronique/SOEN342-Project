@@ -8,4 +8,7 @@ public class OfferingService {
     @Autowired //use instead of new() because manually creating is not recommended in Spring, this instantiates this class for us
     private OfferingRepository offeringRepository;
 
+    public List<Offering> allOfferings(){
+        return (List<Offering>) offeringRepository.findAll();
+    }
 }
