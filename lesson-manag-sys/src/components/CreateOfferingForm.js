@@ -42,7 +42,7 @@ const CreateOfferingForm = () => {
 
     try {
       // Sends form data to the Spring Boot backend
-      const response = await axios.post('/api/offerings/create', formData);
+      const response = await axios.post("/api/offerings", formData);
       console.log("Offering created successfully:", response.data);
     } catch (error) {
       console.error("Error creating offering:", error);
