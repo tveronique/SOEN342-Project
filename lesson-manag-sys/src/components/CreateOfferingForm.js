@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import '../App.css';
@@ -17,6 +17,24 @@ const CreateOfferingForm = () => {
         endDate: ''
       });
     
+    const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [existingOfferings, setExistingOfferings] = useState([]);
+
+    useEffect(() => {
+        const fetchExistingOfferings = async () => {
+          setLoading(true);
+            try {
+                const response = await axios.get("/api/offerings"); // Adjust this URL to your API endpoint
+                setExistingOfferings(response.data);
+            } catch (error) {
+                console.error("Error fetching existing offerings:", error);
+            }
+        };
+
+        fetchExistingOfferings();
+    }, []);
+
       const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData((prevData) => ({
@@ -28,22 +46,45 @@ const CreateOfferingForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // // Validate dates
-    // if (new Date(startDate) > new Date(endDate)) {
-    //   setMessage('End date cannot be before the start date.');
-    //   return;
-    // }
+    if (new Date(formData.startDate) > new Date(formData.endDate)) {
+      setMessage('End date cannot be before the start date.');
+      return;
+  }
+  
+  // Validate times
+  if (formData.startTime >= formData.endTime) {
+      setMessage('End time must be after start time.');
+      return;
+  }
 
-    // // Validate times
-    // if (startTime >= endTime) {
-    //   setMessage('End time must be after start time.');
-    //   return;
-    // }
+  if (loading) {
+    setMessage('Please wait, loading offerings...');
+    return; // Prevent submission while loading
+}
+
+  const newOfferingStart = new Date(`${formData.startDate}T${formData.startTime}`);
+  const newOfferingEnd = new Date(`${formData.startDate}T${formData.endTime}`);
+
+  const isOverlapping = existingOfferings.some(offering => {
+      const existingStart = new Date(`${offering.startDate}T${offering.startTime}`);
+      const existingEnd = new Date(`${offering.startDate}T${offering.endTime}`);
+
+      return offering.locationName === formData.locationName &&
+          newOfferingStart < existingEnd &&
+          newOfferingEnd > existingStart; // Check for overlap
+  });
+
+  if (isOverlapping) {
+      setMessage('An offering at this location overlaps with an existing offering.');
+      return; // Stop execution if there is an overlap
+  }
+
 
     try {
       // Sends form data to the Spring Boot backend
-      const response = await axios.post("/api/offerings", formData);
+      const response = await axios.post("/api/offerings/create", formData);
       console.log("Offering created successfully:", response.data);
+            setMessage("Offering successfully added!");
     } catch (error) {
       console.error("Error creating offering:", error);
     };
@@ -160,7 +201,7 @@ const CreateOfferingForm = () => {
         />
       </div>
       <Button type="submit" variant="outline-primary" size="lg">Create Offering</Button>
-      {/* {message && <p className="mt-4 text-red-500">{message}</p>} */}
+      {message && <p className="mt-4 text-red-500">{message}</p>}
     </form>
   );
 };
