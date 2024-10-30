@@ -29,16 +29,16 @@ const CreateOfferingForm = () => {
     e.preventDefault();
 
     // Validate dates
-    if (new Date(startDate) > new Date(endDate)) {
-      setMessage('End date cannot be before the start date.');
-      return;
-    }
+    // if (new Date(startDate) > new Date(endDate)) {
+    //   setMessage('End date cannot be before the start date.');
+    //   return;
+    // }
 
     // Validate times
-    if (startTime >= endTime) {
-      setMessage('End time must be after start time.');
-      return;
-    }
+    // if (startTime >= endTime) {
+    //   setMessage('End time must be after start time.');
+    //   return;
+    // }
 
     try {
       // Sends form data to the Spring Boot backend

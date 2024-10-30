@@ -14,5 +14,25 @@ public class Lesson{
     //default constructor
     public Lesson(){}
 
+
+    public boolean isIsPrivate() {
+        return this.isPrivate;
+    }
+
+    public boolean getIsPrivate() {
+        return this.isPrivate;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
     
 }

@@ -25,12 +25,12 @@ public class Space {
         this.type = type;
     }
 
-    public Location getLocation() {
-        return this.location;
-    }
+    // public Location getLocation() {
+    //     return this.location;
+    // }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+    // public void setLocation(Location location) {
+    //     this.location = location;
+    //}
 
 }
