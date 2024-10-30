@@ -5,8 +5,8 @@ public class Location {
     //attributes
     private String name;
     private String city;
-    private Vector<Space> availableSpaces = new Vector<Space>();
-    private Vector<Schedule> schedule = new Vector<Schedule>();
+    private Space space = new Space();
+    private Schedule schedule = new Schedule();
 
     //operations
     public Location(){}
@@ -14,10 +14,9 @@ public class Location {
     public Location(String name, String c, Space sp, Schedule sc){
         this.name = name;
         this.city = c;
-        availableSpaces.add(sp);
-        schedule.add(sc);
+        this.space = sp;
+        this.schedule = sc;
     }
-
 
     public String getName() {
         return this.name;
@@ -36,27 +35,22 @@ public class Location {
         this.city = city;
     }
 
-    public Vector<Space> getAvailableSpaces() {
-        return this.availableSpaces;
+
+    public Space getSpace() {
+        return this.space;
     }
 
-    public void setAvailableSpaces(Vector<Space> availableSpaces) {
-        this.availableSpaces = availableSpaces;
+    public void setSpace(Space space) {
+        this.space = space;
     }
 
-    public Vector<Schedule> getSchedule() {
+    public Schedule getSchedule() {
         return this.schedule;
     }
 
-    public void setSchedule(Vector<Schedule> schedule) {
+    public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
 
-    public void addSchedule(Schedule s){
-        schedule.add(s);
+   
     }
-
-    public void addSpace(Space s){
-        availableSpaces.add(s);
-    }
-}
