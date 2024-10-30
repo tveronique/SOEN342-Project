@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.concordia.soen342.dto.OfferingDTO;
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/offerings")
@@ -13,13 +13,16 @@ import java.util.Map;
 
 public class OfferingController {
     @Autowired
-    private OfferingService offeringService;
     private OfferingRepository offeringRepository;
+
+    @Autowired
+    private OfferingService offeringService;
 
     // private final Administrator admin = Administrator.getAdmin("adminName", 1234567890L, "password");
 
     @PostMapping("/create")
     public ResponseEntity<String> createOffering(@RequestBody Map<String, String> formData) {
+        
     // Extract data from formData
     String lessonType = formData.get("lessonType");
     boolean isPrivate = Boolean.parseBoolean(formData.get("isPrivate"));
@@ -38,8 +41,10 @@ public class OfferingController {
     Location location = new Location(locationName, city, space, schedule);
     Lesson lesson = new Lesson(isPrivate, lessonType);
 
+
     // Create the Offering object
     Offering offering = new Offering(location, lesson);
+    System.out.println("Received offeringRequest: " + offering);
 
     // Save the offering using a service or repository (not shown here)
     offeringRepository.save(offering); // Assuming you have a repository to handle this
@@ -47,33 +52,11 @@ public class OfferingController {
     return ResponseEntity.ok("Offering created successfully");
 }
 
-    // @PostMapping("/create")
-    //     public ResponseEntity<?> createOffering(@RequestBody OfferingDTO dto) {
-    //         try {
-    //             // Create the objects using the data from the DTO
-    //             Space space = new Space(dto.getSpaceType());
-    //             Schedule schedule = new Schedule(dto.getDay(), dto.getStartTime(), dto.getEndTime(), dto.getStartDate(), dto.getEndDate());
-    //             Location location = new Location(dto.getCity(), space, schedule);
-    //             Lesson lesson = new Lesson(dto.getIsPrivate(), dto.getLessonType());
+@GetMapping
+    public ResponseEntity<List<Offering>> getAllOfferings() {
+        return new ResponseEntity<List<Offering>>(offeringService.allOfferings(), HttpStatus.OK);
+    }
 
-    //             Offering offering = new Offering(location, lesson);
-    //             offeringRepository.save(offering);
-
-    //             return ResponseEntity.ok(offering);
-    //         } catch (Exception e) {
-    //             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating offering");
-    //         }
-    //     }
-
-    // @PostMapping("/create")
-    // public Offering createOffering(@RequestBody Offering offering) {
-    //     return offeringService.saveOffering(offering);
-    // }
-    
-    // @GetMapping
-    // public ResponseEntity<List<Offering>> getAllOfferings() {
-    //     return new ResponseEntity<List<Offering>>(offeringService.allOfferings(), HttpStatus.OK);
-    // }
 }
 
     // // Space Creation Endpoint
