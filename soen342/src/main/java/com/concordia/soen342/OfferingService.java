@@ -9,7 +9,8 @@ import java.util.List;
 public class OfferingService {
     @Autowired //use instead of new() because manually creating is not recommended in Spring, this instantiates this class for us
     private OfferingRepository offeringRepository;
-
+    
+    @Autowired
     private MongoTemplate mongoTemplate;
 
     public List<Offering> allOfferings(){

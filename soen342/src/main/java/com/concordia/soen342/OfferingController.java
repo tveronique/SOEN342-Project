@@ -56,9 +56,7 @@ public class OfferingController {
     public ResponseEntity<List<Offering>> getAllOfferings() {
         return new ResponseEntity<List<Offering>>(offeringService.allOfferings(), HttpStatus.OK);
     }
-
 }
-
     // // Space Creation Endpoint
     // @PostMapping("/spaces")
     // public ResponseEntity<Space> createSpace(@RequestBody String type) {

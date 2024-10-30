@@ -22,18 +22,21 @@ const CreateOfferingForm = () => {
     const [existingOfferings, setExistingOfferings] = useState([]);
 
     useEffect(() => {
-        const fetchExistingOfferings = async () => {
+      const fetchExistingOfferings = async () => {
           setLoading(true);
-            try {
-                const response = await axios.get("/api/offerings"); // Adjust this URL to your API endpoint
-                setExistingOfferings(response.data);
-            } catch (error) {
-                console.error("Error fetching existing offerings:", error);
-            }
-        };
+          try {
+              const response = await axios.get("/api/offerings"); // Adjust this URL to your API endpoint
+              setExistingOfferings(response.data);
+              console.log(existingOfferings);
+          } catch (error) {
+              console.error("Error fetching existing offerings:", error);
+          } finally {
+              setLoading(false); // Ensure loading state is updated in both cases
+          }
+      };
 
-        fetchExistingOfferings();
-    }, []);
+      fetchExistingOfferings();
+    }, [])
 
       const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -60,7 +63,7 @@ const CreateOfferingForm = () => {
   if (loading) {
     setMessage('Please wait, loading offerings...');
     return; // Prevent submission while loading
-}
+  }
 
   const newOfferingStart = new Date(`${formData.startDate}T${formData.startTime}`);
   const newOfferingEnd = new Date(`${formData.startDate}T${formData.endTime}`);
