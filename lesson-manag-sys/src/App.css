@@ -125,3 +125,23 @@
   margin-top: 10px;
   color: red;
 }
+
+.viewOfferings {
+  max-width: 500px;
+  align-items: center;
+  margin: auto;
+  border: 3px solid #0056b3;
+  margin-bottom: 20px;
+}
+
+.viewOfferings h3{
+  background-color: #0056b3;
+  color: whitesmoke;
+}
+
+.viewOfferings p{
+  background-color: white;
+  color: black;
+  text-align: justify;
+  padding: 20px;
+}
