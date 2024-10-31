@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import CreateOfferingForm from './CreateOfferingForm';
 
 function CreateOffering() {
@@ -10,5 +9,4 @@ function CreateOffering() {
     </div>
   );
 }
-
 export default CreateOffering;

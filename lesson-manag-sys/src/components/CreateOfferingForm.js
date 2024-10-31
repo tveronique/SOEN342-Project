@@ -18,13 +18,12 @@ const CreateOfferingForm = () => {
       });
     
     const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(true);
     const [existingOfferings, setExistingOfferings] = useState([]);
 
     useEffect(() => {
       const fetchExistingOfferings = async () => {
           try {
-            const response = await axios.get("/api/offerings"); // Adjust this URL to your API endpoint
+            const response = await axios.get("/api/offerings");
             setExistingOfferings(response.data);
             console.log("Offering fetched successfully:", response.data);
           } catch (error) {
@@ -57,30 +56,48 @@ const CreateOfferingForm = () => {
         return;
     }
 
-    if (loading) {
-      setMessage('Please wait, loading offerings...');
-      return; // Prevent submission while loading
-    }
+   // Convert new offering dates and times to Date objects for comparison
+   const newOfferingStart = new Date(`${formData.startDate}T${formData.startTime}`);
+   const newOfferingEnd = new Date(`${formData.endDate}T${formData.endTime}`);
 
-    const newOfferingStart = new Date(`${formData.startDate}T${formData.startTime}`);
-    const newOfferingEnd = new Date(`${formData.endDate}T${formData.endTime}`);
+   // Check for overlapping offerings
+   const isOverlapping = existingOfferings.some(offering => {
+       const existingStart = new Date(`${offering.location.schedule.startDate}T${offering.location.schedule.startTime}`);
+       const existingEnd = new Date(`${offering.location.schedule.endDate}T${offering.location.schedule.endTime}`);
 
-    const isOverlapping = existingOfferings.some(offering => {
-        const existingStart = new Date(`${offering.startDate}T${offering.startTime}`);
-        const existingEnd = new Date(`${offering.endDate}T${offering.endTime}`);
-
-        return (offering.locationName === formData.locationName &&
-            newOfferingStart < existingEnd &&
-            newOfferingEnd > existingStart); // Check for overlap
-    });
+       // Check if new offering overlaps with an existing one in the same location and space
+       return (
+           offering.location.name === formData.locationName &&
+           offering.location.space.type === formData.spaceType &&
+           offering.location.schedule.day === formData.day 
+           &&
+           ((newOfferingStart === existingStart && newOfferingEnd === existingEnd)
+           || (newOfferingStart < existingStart && newOfferingEnd > existingEnd)
+           || (newOfferingStart > existingStart && newOfferingEnd < existingEnd)
+           || (newOfferingStart > existingStart && existingEnd < newOfferingEnd)
+           || (newOfferingStart < existingEnd && existingEnd > newOfferingEnd)
+           )
+       );
+   });
 
     try {
       // Sends form data to the Spring Boot backend
       if (isOverlapping) {
-        setMessage('An offering at this location overlaps with an existing offering.');
-        return; // Stop execution if there is an overlap
-      }
-
+        setMessage('Error: An offering at this location overlaps with an existing offering.');
+        setFormData({
+            lessonType: '',
+            isPrivate: false,
+            spaceType: '',
+            locationName: '',
+            city: '',
+            day: '',
+            startTime: '',
+            endTime: '',
+            startDate: '',
+            endDate: ''
+        });
+        return; // Prevent submission
+    }
       const response = await axios.post("/api/offerings/create", formData);
       console.log("Offering created successfully:", response.data);
             setMessage("Offering successfully added!");
