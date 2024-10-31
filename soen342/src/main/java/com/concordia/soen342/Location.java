@@ -52,4 +52,10 @@ public class Location {
         this.schedule = schedule;
     }
 
+    // @Override
+    // public String toString() {
+    //     return "Location [name=" + name + ", city=" + city + ", space=" + space + ", schedule=" + schedule + "]";
+    // }
+
+    
 }

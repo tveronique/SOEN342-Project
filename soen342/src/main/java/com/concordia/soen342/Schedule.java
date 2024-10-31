@@ -60,6 +60,12 @@ public class Schedule{
         this.endDate = endDate;
     }
 
+    // @Override
+    // public String toString() {
+    //     return "Schedule [day=" + day + ", startTime=" + startTime + ", endTime=" + endTime + ", startDate=" + startDate
+    //             + ", endDate=" + endDate + "]";
+    // }
+
     
 
 }

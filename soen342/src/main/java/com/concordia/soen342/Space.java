@@ -33,4 +33,9 @@ public class Space {
         this.location = location;
     }
 
+    // @Override
+    // public String toString() {
+    //     return "Space [type=" + type + ", location=" + location + "]";
+    // }
+
 }
