@@ -46,10 +46,8 @@ public class OfferingController {
     Offering offering = new Offering(location, lesson);
     System.out.println("Received offeringRequest: " + offering);
 
-    // Save the offering using a service or repository (not shown here)
-    offeringRepository.save(offering); // Assuming you have a repository to handle this
-
-    return ResponseEntity.ok("Offering created successfully");
+        offeringService.saveOffering(offering); // This will check for overlaps
+        return ResponseEntity.ok("Offering created successfully");
 }
 
 @GetMapping
@@ -58,32 +56,3 @@ public class OfferingController {
     }
 
 }
-
-    // // Space Creation Endpoint
-    // @PostMapping("/spaces")
-    // public ResponseEntity<Space> createSpace(@RequestBody String type) {
-    //     Space createdSpace = admin.createSpace(type);
-    //     return ResponseEntit[y.ok(createdSpace);
-    // }
-
-    // // Location Creation Endpoint
-    // // @PostMapping("/locations")
-    // // public ResponseEntity<Location> createLocation(@RequestBody Location location) {
-    // //     Location createdLocation = admin.createLocation(location.getCity(), location.getSpace(), location.getSchedule());
-    // //     return ResponseEntity.ok(createdLocation);
-    // // }
-
-    // // Lesson Creation Endpoint
-    // @PostMapping("/lessons")
-    // public ResponseEntity<Lesson> createLesson(@RequestBody Lesson lesson) {
-    //     // Implement your lesson creation logic
-    //     // Example: Saving lesson to the database (if you have a repo)
-    //     return ResponseEntity.ok(lesson);
-    // }
-
-    // // Offering Creation Endpoint
-    // @PostMapping("/offerings")
-    // public ResponseEntity<Offering> createOffering(@RequestBody Offering offering) {
-    //     Offering createdOffering = admin.createOffering(offering.getLocation(), offering.getLesson());
-    //     return ResponseEntity.ok(createdOffering);
-    // }

@@ -21,19 +21,19 @@ const CreateOfferingForm = () => {
     const [loading, setLoading] = useState(true);
     const [existingOfferings, setExistingOfferings] = useState([]);
 
-    useEffect(() => {
-        const fetchExistingOfferings = async () => {
-          setLoading(true);
-            try {
-                const response = await axios.get("/api/offerings"); // Adjust this URL to your API endpoint
-                setExistingOfferings(response.data);
-            } catch (error) {
-                console.error("Error fetching existing offerings:", error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchExistingOfferings = async () => {
+    //       setLoading(true);
+    //         try {
+    //             const response = await axios.get("/api/offerings"); // Adjust this URL to your API endpoint
+    //             setExistingOfferings(response.data);
+    //         } catch (error) {
+    //             console.error("Error fetching existing offerings:", error);
+    //         }
+    //     };
 
-        fetchExistingOfferings();
-    }, []);
+    //     fetchExistingOfferings();
+    // }, []);
 
       const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -57,27 +57,27 @@ const CreateOfferingForm = () => {
       return;
   }
 
-  if (loading) {
-    setMessage('Please wait, loading offerings...');
-    return; // Prevent submission while loading
-}
+//   if (loading) {
+//     setMessage('Please wait, loading offerings...');
+//     return; // Prevent submission while loading
+// }
 
-  const newOfferingStart = new Date(`${formData.startDate}T${formData.startTime}`);
-  const newOfferingEnd = new Date(`${formData.startDate}T${formData.endTime}`);
+//   const newOfferingStart = new Date(`${formData.startDate}T${formData.startTime}`);
+//   const newOfferingEnd = new Date(`${formData.startDate}T${formData.endTime}`);
 
-  const isOverlapping = existingOfferings.some(offering => {
-      const existingStart = new Date(`${offering.startDate}T${offering.startTime}`);
-      const existingEnd = new Date(`${offering.startDate}T${offering.endTime}`);
+//   const isOverlapping = existingOfferings.some(offering => {
+//       const existingStart = new Date(`${offering.startDate}T${offering.startTime}`);
+//       const existingEnd = new Date(`${offering.startDate}T${offering.endTime}`);
 
-      return offering.locationName === formData.locationName &&
-          newOfferingStart < existingEnd &&
-          newOfferingEnd > existingStart; // Check for overlap
-  });
+//       return offering.locationName === formData.locationName &&
+//           newOfferingStart < existingEnd &&
+//           newOfferingEnd > existingStart; // Check for overlap
+//   });
 
-  if (isOverlapping) {
-      setMessage('An offering at this location overlaps with an existing offering.');
-      return; // Stop execution if there is an overlap
-  }
+//   if (isOverlapping) {
+//       setMessage('An offering at this location overlaps with an existing offering.');
+//       return; // Stop execution if there is an overlap
+//   }
 
 
     try {
