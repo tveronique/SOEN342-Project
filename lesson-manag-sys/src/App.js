@@ -9,8 +9,9 @@ import LogIn from './pages/LogIn'
 import Account from './pages/Account' 
 import AdminDashboard from './pages/AdminDashboard'  
 import UserProfiles from './pages/UserProfiles'
-import CreateOffering from './components/CreateOffering';
-import ViewAdminOffering from './components/ViewAdminOffering';
+import CreateOffering from './components/CreateOffering'
+import ViewAdminOffering from './components/ViewAdminOffering'
+import UpdateOffering from './components/UpdateOfferings'
 import InstructorDashboard from './pages/InstructorDashboard'
 
 function App() {
@@ -51,6 +52,7 @@ useEffect(() => {
           <Route path="/user-profiles" element = {<UserProfiles />} />
           <Route path="/offerings/create" element={<CreateOffering />} />
           <Route path="/offerings" element={<ViewAdminOffering />} />
+          <Route path="/offerings/update" element = {<UpdateOffering />} />
           <Route path="/instructordash" element = {<InstructorDashboard />} />
         </Routes>
       </BrowserRouter>

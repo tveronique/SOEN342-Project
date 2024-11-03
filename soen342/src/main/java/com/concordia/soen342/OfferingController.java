@@ -1,4 +1,5 @@
 package com.concordia.soen342;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.data.mongodb.core.aggregation.VariableOperators.Map;
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,27 @@ public class OfferingController {
     public ResponseEntity<List<Offering>> getAllOfferings() {
         return new ResponseEntity<List<Offering>>(offeringService.allOfferings(), HttpStatus.OK);
     }
+
+@PutMapping("/{id}")
+public ResponseEntity<String> updateOffering(@PathVariable String id, @RequestBody Offering updatedOffering) {
+        ObjectId objId = new ObjectId(id);
+        // Find the offering by ID
+        Offering existingOffering = offeringRepository.findById(objId).orElse(null);
+        if (existingOffering == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Offering not found");
+        }
+    
+        // Update the existing offering
+        existingOffering.setLocation(updatedOffering.getLocation());
+        existingOffering.setLesson(updatedOffering.getLesson());
+        
+        // Save the updated offering
+        offeringRepository.save(existingOffering);
+    
+        return ResponseEntity.ok("Offering updated successfully");
+
+}
+
 }
     // // Space Creation Endpoint
     // @PostMapping("/spaces")
