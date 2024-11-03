@@ -10,6 +10,7 @@ function UpdateOfferings() {
 
     const handleEdit = (offering) => {
         setEditingOffering(offering); // Set the offering to be edited
+
     };
 
     const handleUpdate = (updatedOffering) => {

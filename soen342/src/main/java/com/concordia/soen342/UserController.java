@@ -25,14 +25,14 @@ public class UserController {
         return new ResponseEntity<List<User>>(userService.allUsers(), HttpStatus.OK);
     }
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity<Optional<User>> getSingleUserById(@PathVariable ObjectId id) {
-    //     return new ResponseEntity<Optional<User>>(userService.singleUserById(id), HttpStatus.OK);
-    // }
-    
-    @GetMapping("/{phoneNumber}")
-    public ResponseEntity<Optional<User>> getSingleUserByPhoneNumber(@PathVariable long phoneNumber) {
-        return new ResponseEntity<Optional<User>>(userService.singleUserByPhoneNumber(phoneNumber), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<User>> getSingleUserById(@PathVariable ObjectId id) {
+        return new ResponseEntity<Optional<User>>(userService.singleUserById(id), HttpStatus.OK);
     }
+    
+    // @GetMapping("/{phoneNumber}")
+    // public ResponseEntity<Optional<User>> getSingleUserByPhoneNumber(@PathVariable long phoneNumber) {
+    //     return new ResponseEntity<Optional<User>>(userService.singleUserByPhoneNumber(phoneNumber), HttpStatus.OK);
+    // }
     
 }
