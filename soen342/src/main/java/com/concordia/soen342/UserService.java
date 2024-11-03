@@ -16,14 +16,14 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    // public Optional<User> singleUserById(ObjectId id) {
-    //     return userRepository.findById(id);
-    // }
-
-    public Optional<User> singleUserByPhoneNumber(long phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber);
+    public Optional<User> singleUserById(ObjectId id) {
+        return userRepository.findById(id);
     }
+
+    // public Optional<User> singleUserByPhoneNumber(long phoneNumber) {
+    //     return userRepository.findByPhoneNumber(phoneNumber);
+    // }
     // public Person registerUser(Person person) {
     //     return userRepository.save(person);
     // }
-}
+}   

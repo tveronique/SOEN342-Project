@@ -7,6 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.List;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 @RestController
 @RequestMapping("/api/offerings")
@@ -58,24 +65,30 @@ public class OfferingController {
         return new ResponseEntity<List<Offering>>(offeringService.allOfferings(), HttpStatus.OK);
     }
 
-@PutMapping("/{id}")
-public ResponseEntity<String> updateOffering(@PathVariable String id, @RequestBody Offering updatedOffering) {
-        ObjectId objId = new ObjectId(id);
-        // Find the offering by ID
-        Offering existingOffering = offeringRepository.findById(objId).orElse(null);
-        if (existingOffering == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Offering not found");
-        }
-    
-        // Update the existing offering
-        existingOffering.setLocation(updatedOffering.getLocation());
-        existingOffering.setLesson(updatedOffering.getLesson());
-        
-        // Save the updated offering
-        offeringRepository.save(existingOffering);
-    
-        return ResponseEntity.ok("Offering updated successfully");
+@GetMapping("/{id}")
+public ResponseEntity<Offering> getOfferingById(@PathVariable ObjectId id) {
+    Offering offering = offeringService.singleOfferingById(id).orElse(null);
+    if (offering == null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(offering);
+    }
+    return ResponseEntity.ok(offering);
+}
 
+@PutMapping("/{id}")
+public ResponseEntity<Offering> updateOffering(@PathVariable ObjectId id, @RequestBody Offering updatedOffering) {
+    Offering existingOffering = offeringService.singleOfferingById(id).orElse(null);
+    if (existingOffering == null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(existingOffering);
+    }
+
+    // Update the existing offering
+    existingOffering.setLocation(updatedOffering.getLocation());
+    existingOffering.setLesson(updatedOffering.getLesson());
+    
+    // Save the updated offering
+    Offering newUpdateOffering = offeringRepository.save(existingOffering);
+
+    return ResponseEntity.ok(newUpdateOffering);
 }
 
 }
