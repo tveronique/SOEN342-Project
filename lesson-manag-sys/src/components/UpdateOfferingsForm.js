@@ -30,12 +30,12 @@ const UpdateOfferingsForm = ({ offering, onClose, onUpdate }) => {
 
           if (!offeringId) {
             console.error("Offering ID is undefined or null");
-            return; // Prevent making the request if ID is invalid
+            return;
           }
           console.log("Updated offering:", updatedOffering);
           const response = await axios.put(`/api/offerings/${offeringId}`, updatedOffering);
           onUpdate(response.data);
-          window.location.reload(); //reload the page after update
+          window.location.reload();
           onClose(); 
         } catch (error) {
             console.error("Error updating offering:", error);
