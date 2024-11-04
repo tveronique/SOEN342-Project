@@ -7,10 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.List;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/offerings")
@@ -88,32 +84,14 @@ public ResponseEntity<Offering> updateOffering(@PathVariable ObjectId id, @Reque
     return ResponseEntity.ok(newUpdateOffering);
 }
 
+@DeleteMapping("/delete/{id}")
+public ResponseEntity<String> deleteOffering(@PathVariable ObjectId id) {
+    if (offeringRepository.existsById(id)) {
+        offeringRepository.deleteById(id);
+        return ResponseEntity.ok("Offering deleted successfully");
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Offering not found");
+    }
 }
-    // // Space Creation Endpoint
-    // @PostMapping("/spaces")
-    // public ResponseEntity<Space> createSpace(@RequestBody String type) {
-    //     Space createdSpace = admin.createSpace(type);
-    //     return ResponseEntit[y.ok(createdSpace);
-    // }
 
-    // // Location Creation Endpoint
-    // // @PostMapping("/locations")
-    // // public ResponseEntity<Location> createLocation(@RequestBody Location location) {
-    // //     Location createdLocation = admin.createLocation(location.getCity(), location.getSpace(), location.getSchedule());
-    // //     return ResponseEntity.ok(createdLocation);
-    // // }
-
-    // // Lesson Creation Endpoint
-    // @PostMapping("/lessons")
-    // public ResponseEntity<Lesson> createLesson(@RequestBody Lesson lesson) {
-    //     // Implement your lesson creation logic
-    //     // Example: Saving lesson to the database (if you have a repo)
-    //     return ResponseEntity.ok(lesson);
-    // }
-
-    // // Offering Creation Endpoint
-    // @PostMapping("/offerings")
-    // public ResponseEntity<Offering> createOffering(@RequestBody Offering offering) {
-    //     Offering createdOffering = admin.createOffering(offering.getLocation(), offering.getLesson());
-    //     return ResponseEntity.ok(createdOffering);
-    // }
+}   
