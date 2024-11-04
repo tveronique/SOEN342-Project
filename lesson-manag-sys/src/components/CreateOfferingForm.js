@@ -85,22 +85,34 @@ const CreateOfferingForm = () => {
       if (isOverlapping) {
         setMessage('Error: An offering at this location overlaps with an existing offering.');
         setFormData({
-            lessonType: '',
-            isPrivate: false,
-            spaceType: '',
-            locationName: '',
-            city: '',
-            day: '',
-            startTime: '',
-            endTime: '',
-            startDate: '',
-            endDate: ''
-        });
+          lessonType: '',
+          isPrivate: false,
+          spaceType: '',
+          locationName: '',
+          city: '',
+          day: '',
+          startTime: '',
+          endTime: '',
+          startDate: '',
+          endDate: ''
+      });
         return; // Prevent submission
     }
       const response = await axios.post("/api/offerings/create", formData);
       console.log("Offering created successfully:", response.data);
             setMessage("Offering successfully added!");
+            setFormData({
+              lessonType: '',
+              isPrivate: false,
+              spaceType: '',
+              locationName: '',
+              city: '',
+              day: '',
+              startTime: '',
+              endTime: '',
+              startDate: '',
+              endDate: ''
+          });
     } catch (error) {
       console.error("Error creating offering:", error);
     };
