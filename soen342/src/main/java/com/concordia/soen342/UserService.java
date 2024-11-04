@@ -20,6 +20,18 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public User registerUser(String name, long phoneNumber, String password, String role) {
+        if (userRepository.findByPhoneNumber(phoneNumber).isPresent()) {
+            throw new RuntimeException("Phone number already exists");
+        }
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        user.setRole(role);
+        
+        return userRepository.save(user);
+    }
+
     // public Optional<User> singleUserByPhoneNumber(long phoneNumber) {
     //     return userRepository.findByPhoneNumber(phoneNumber);
     // }
