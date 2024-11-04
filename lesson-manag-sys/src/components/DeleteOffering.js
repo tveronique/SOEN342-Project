@@ -20,7 +20,7 @@ function DeleteOffering() {
 
     return (
         <div>
-            <h1>Update Offerings</h1>
+            <h1>Delete Offerings</h1>
 
             {offerings.map((offering => (
                 <div key={offering._id} className="viewOfferings">
