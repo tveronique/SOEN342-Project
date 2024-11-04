@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
 public class UserController {
     @Autowired
@@ -28,6 +30,22 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<User>> getSingleUserById(@PathVariable ObjectId id) {
         return new ResponseEntity<Optional<User>>(userService.singleUserById(id), HttpStatus.OK);
+    }
+    
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(@RequestBody User user) {
+        try {
+            userService.registerUser(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getRole());
+            return ResponseEntity.ok("User signed up successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login() {
+        // Spring Security handles authentication automatically here
+        return ResponseEntity.ok("User logged in successfully");
     }
     
     // @GetMapping("/{phoneNumber}")
