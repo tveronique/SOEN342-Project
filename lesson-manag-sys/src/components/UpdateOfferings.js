@@ -37,8 +37,8 @@ function UpdateOfferings() {
             {editingOffering && (
                 <UpdateOfferingForm
                     offering={editingOffering}
-                    onClose={() => setEditingOffering(null)} // Close the form on cancel
-                    onUpdate={handleUpdate} // Handle the update
+                    onClose={() => setEditingOffering(null)}
+                    onUpdate={handleUpdate}
                 />
             )}
 
