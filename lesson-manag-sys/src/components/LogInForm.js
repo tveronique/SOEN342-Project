@@ -25,7 +25,7 @@ const LogInForm = () => {
             console.log(response.data);
 
             // Save role in localStorage
-            localStorage.setItem('userRole', role);
+            localStorage.setItem('role', role);
 
             // Redirect to dashboard based on role
             if (role === 'ADMIN') {
