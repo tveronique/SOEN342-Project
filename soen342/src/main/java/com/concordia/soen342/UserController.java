@@ -66,9 +66,9 @@ public class UserController {
         Optional<User> userOpt = userRepository.findByPhoneNumber(phoneNumber);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            if (user.getPassword().equals(password)) { // Add proper password hashing in production
+            if (user.getPassword().equals(password)) { 
                 LogInResponse userResponse = new LogInResponse(user.getPhoneNumber(), user.getRole());
-                return ResponseEntity.ok(userResponse); // Send user role or details
+                return ResponseEntity.ok(userResponse);
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid phone number or password");
