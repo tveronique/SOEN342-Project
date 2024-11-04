@@ -23,7 +23,7 @@ function App() {
 
     try {
 
-      const response = await api.get("/api/v1/users");
+      const response = await api.get("/api/users");
       console.log(response.data);
 
       setUsers(response.data);

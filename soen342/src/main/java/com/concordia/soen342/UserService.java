@@ -20,11 +20,19 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User registerUser(String name, long phoneNumber, String password, String role) {
+    public User registerUser(String name, String phoneNumber, String password, String role) {
         if (userRepository.findByPhoneNumber(phoneNumber).isPresent()) {
             throw new RuntimeException("Phone number already exists");
         }
+        if("ADMIN".equals(role)) {
+            boolean adminExists = userRepository.existsByRole("ADMIN");
+            System.out.println("Admin exists check result: " + adminExists);
+            if (adminExists){
+                throw new AdminAlreadyExistsException("An admin user already exists");
+            }
+        }
         User user = new User();
+        user.setPhoneNumber(phoneNumber);
         user.setName(name);
         user.setPassword(password);
         user.setRole(role);
@@ -32,9 +40,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // public Optional<User> singleUserByPhoneNumber(long phoneNumber) {
-    //     return userRepository.findByPhoneNumber(phoneNumber);
-    // }
+    public Optional<User> singleUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findByPhoneNumber(phoneNumber);
+    }
     // public Person registerUser(Person person) {
     //     return userRepository.save(person);
     // }

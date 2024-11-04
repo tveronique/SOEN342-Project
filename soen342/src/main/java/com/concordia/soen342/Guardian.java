@@ -8,7 +8,7 @@ public class Guardian extends Client{
     //OPERATIONS
     public Guardian(){}
 
-    public Guardian(String name, long phoneNumber, String password, String childName, int childAge, String r){
+    public Guardian(String name, String phoneNumber, String password, String childName, int childAge, String r){
         super(name, phoneNumber, password);
         this.childName = childName;
         this.childAge = childAge;
