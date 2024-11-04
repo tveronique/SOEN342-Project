@@ -12,10 +12,12 @@ const SignUpForm = () => {
         specializations: [''],
         availableCities: [''],
         childName: '',
-        childAge: ''
+        childAge: '',
+        relationship:''
     });
     
     const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
     const [isGuardian, setIsGuardian] = useState(false);
     const [isInstructor, setIsInstructor] = useState(false);
 
@@ -65,9 +67,13 @@ const SignUpForm = () => {
         try {
             const response = await axios.post("/api/users/signup", formData);
             console.log("Signed up successfully:", response.data);
-            setMessage("Offering successfully added!");
+            setMessage("Signed up successfully !");
         } catch (error) {
-            console.error("Error creating offering:", error);
+            if (error.response && error.response.status === 400) {
+                setError("An admin user already exists. Only one admin is allowed.");
+            } else {
+                setError("An error occurred. Please try again.");
+            }
         };
     };
 
@@ -115,8 +121,8 @@ const SignUpForm = () => {
                 <input
                     type="radio"
                     name="role"
-                    value="Admin"
-                    checked={formData.role === 'Admin'}
+                    value="ADMIN"
+                    checked={formData.role === 'ADMIN'}
                     onChange={(e) => {handleChange(e); 
                         setIsInstructor(true);
                         setIsGuardian(false);}}
@@ -129,8 +135,8 @@ const SignUpForm = () => {
                     className="mt-1 p-2 border rounded w-full mr-3"
                     type="radio"
                     name="role"
-                    value="Instructor"
-                    checked={formData.role === 'Instructor'}
+                    value="INSTRUCTOR"
+                    checked={formData.role === 'INSTRUCTOR'}
                     onChange={(e) => {
                         handleChange(e);
                         setIsInstructor(true);
@@ -144,8 +150,8 @@ const SignUpForm = () => {
                 className="mt-1 p-2 border rounded w-full mr-3"
                     type="radio"
                     name="role"
-                    value="Client"
-                    checked={formData.role === 'Client'}
+                    value="CLIENT"
+                    checked={formData.role === 'CLIENT'}
                     onChange={(e) => {
                         handleChange(e);
                         setIsInstructor(false);
@@ -153,7 +159,7 @@ const SignUpForm = () => {
                 />
                 Client
             </label>
-            {formData.role === 'Client' && (
+            {formData.role === 'CLIENT' && (
                 <div className="form-group">
                     <label>
                         <input
@@ -170,7 +176,7 @@ const SignUpForm = () => {
             {isGuardian && (
                 <div className="form-group">
                     <h4>Child's Information:</h4>
-                    <div>
+                    <div className="form-group">
                         <label>
                             Child's Name:
                             <input
@@ -194,9 +200,21 @@ const SignUpForm = () => {
                             />
                         </label>
                     </div>
+                    <div className="form-group">
+                        <label>
+                            Relationship with the Child:
+                            <input
+                                className="mt-1 p-2 border rounded w-full"
+                                type="text"
+                                name="relationship"
+                                value={formData.relationship}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
                 </div>
             )}
-            {formData.role === 'Instructor' && (
+            {formData.role === 'INSTRUCTOR' && (
                 <div className="form-group">
                     <h4>Specializations:</h4>
                     {formData.specializations.map((specialization, index) => (
@@ -232,7 +250,8 @@ const SignUpForm = () => {
             )}
             <br></br>
             <Button type="submit">Sign Up</Button>
-            {message && <p className="mt-4 text-red-500">{message}</p>}
+            {message && <p>{message}</p>}
+            {error && <div className="mt-4 text-red-500">{error}</div>}
         </form>
     );
 };

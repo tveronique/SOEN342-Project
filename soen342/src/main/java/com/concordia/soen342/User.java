@@ -13,7 +13,7 @@ public class User{
 
     //ATTRIBUTES
     private String name;
-    private long phoneNumber;
+    private String phoneNumber;
     private String password;
     private String role;
 
@@ -23,7 +23,7 @@ public class User{
     public User(){}
 
     //parameterized constructor
-    public User(String name, long phoneNumber, String password, String role) {
+    public User(String name, String phoneNumber, String password, String role) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -39,11 +39,11 @@ public class User{
         this.name = name;
     }
 
-    public long getPhoneNumber() {
+    public String getPhoneNumber() {
         return this.phoneNumber;
     }
 
-    public void setPhoneNumber(long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

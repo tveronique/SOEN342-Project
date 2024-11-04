@@ -6,7 +6,7 @@ public class Client extends User{
     //operations
     public Client(){}
 
-    public Client(String n, long pn, String pw){
+    public Client(String n, String pn, String pw){
         super(n,pn,pw, "CLIENT");
     }
 }

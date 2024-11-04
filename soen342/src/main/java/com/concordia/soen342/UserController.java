@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import java.util.Map;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,9 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -42,15 +46,32 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login() {
-        // Spring Security handles authentication automatically here
-        return ResponseEntity.ok("User logged in successfully");
-    }
-    
-    // @GetMapping("/{phoneNumber}")
-    // public ResponseEntity<Optional<User>> getSingleUserByPhoneNumber(@PathVariable long phoneNumber) {
-    //     return new ResponseEntity<Optional<User>>(userService.singleUserByPhoneNumber(phoneNumber), HttpStatus.OK);
+    // @PostMapping("/login")
+    // public ResponseEntity<?> login() {
+    //     // Spring Security handles authentication automatically here
+    //     return ResponseEntity.ok("User logged in successfully");
     // }
+    
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> formData) {
+        String phoneNumber = formData.get("phoneNumber");
+        String password = formData.get("password");
+
+        // Validate input
+        if (phoneNumber == null || password == null) {
+            return ResponseEntity.badRequest().body("Phone number and password are required");
+        }
+
+        // Find user by phone number
+        Optional<User> userOpt = userRepository.findByPhoneNumber(phoneNumber);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (user.getPassword().equals(password)) { // Add proper password hashing in production
+                LogInResponse userResponse = new LogInResponse(user.getPhoneNumber(), user.getRole());
+                return ResponseEntity.ok(userResponse); // Send user role or details
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid phone number or password");
+    }
     
 }
