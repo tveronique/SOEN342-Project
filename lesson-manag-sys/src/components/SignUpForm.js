@@ -9,7 +9,7 @@ const SignUpForm = () => {
         phoneNumber: '',
         password: '',
         role: '',
-        specializations: [''],
+        specialization: [''],
         availableCities: [''],
         childName: '',
         childAge: '',
@@ -30,11 +30,11 @@ const SignUpForm = () => {
     };
 
     const handleSpecializationChange = (index, value) => {
-        const newSpecializations = [...formData.specializations];
+        const newSpecializations = [...formData.specialization];
         newSpecializations[index] = value;
         setFormData((prevState) => ({
             ...prevState,
-            specializations: newSpecializations,
+            specialization: newSpecializations,
         }));
     };
 
@@ -50,7 +50,7 @@ const SignUpForm = () => {
     const addSpecialization = () => {
         setFormData((prevState) => ({
             ...prevState,
-            specializations: [...prevState.specializations, '']
+            specialization: [...prevState.specialization, '']
         }));
     };
 
@@ -65,9 +65,21 @@ const SignUpForm = () => {
         e.preventDefault();
         console.log('Form submitted:', formData, 'isGuardian:', isGuardian, 'isInstructor:', isInstructor);
         try {
-            const response = await axios.post("/api/users/signup", formData);
-            console.log("Signed up successfully:", response.data);
-            setMessage("Signed up successfully !");
+            if(isInstructor) {
+                const response = await axios.post("/api/users/signup/instructor", formData);
+                console.log("Instructor signed up successfully:", response.data);
+                setMessage("Instructor signed up successfully !");
+            }
+            else if(isGuardian) {
+                const response = await axios.post("/api/users/signup/guardian", formData);
+                console.log("Guardian signed up successfully:", response.data);
+                setMessage("GUardian signed up successfully !");
+            }
+            else {
+                const response = await axios.post("/api/users/signup", formData);
+                console.log("Signed up successfully:", response.data);
+                setMessage("Signed up successfully !");
+            }
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 setError("An admin user already exists. Only one admin is allowed.");
@@ -217,7 +229,7 @@ const SignUpForm = () => {
             {formData.role === 'INSTRUCTOR' && (
                 <div className="form-group">
                     <h4>Specializations:</h4>
-                    {formData.specializations.map((specialization, index) => (
+                    {formData.specialization.map((specialization, index) => (
                         <div key={index}>
                             <input
                                 className="mt-1 p-2 border rounded w-full"

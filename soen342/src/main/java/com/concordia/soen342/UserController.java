@@ -45,6 +45,25 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
         }
     }
+    @PostMapping("/signup/instructor")
+    public ResponseEntity<?> signUp(@RequestBody Instructor instructor) {
+        try {
+            userService.registerInstructor(instructor.getName(), instructor.getPhoneNumber(), instructor.getPassword(), instructor.getRole(), instructor.getSpecialization(), instructor.getAvailableCities());
+            return ResponseEntity.ok("Instructor signed up successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/signup/guardian")
+    public ResponseEntity<?> signUp(@RequestBody Guardian guardian) {
+        try {
+            userService.registerGuardian(guardian.getName(), guardian.getPhoneNumber(), guardian.getPassword(), guardian.getRole(), guardian.getChildName(), guardian.getChildAge(), guardian.getRelationship());
+            return ResponseEntity.ok("Guardian signed up successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
 
     // @PostMapping("/login")
     // public ResponseEntity<?> login() {
