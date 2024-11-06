@@ -2,6 +2,7 @@ import '../App.css';
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
     const [formData, setFormData] = useState({
@@ -20,6 +21,8 @@ const SignUpForm = () => {
     const [error, setError] = useState('');
     const [isGuardian, setIsGuardian] = useState(false);
     const [isInstructor, setIsInstructor] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -80,6 +83,22 @@ const SignUpForm = () => {
                 console.log("Signed up successfully:", response.data);
                 setMessage("Signed up successfully !");
             }
+            console.log("Response data:", response.data);
+            localStorage.setItem("phoneNumber", response.data.phoneNumber);
+            localStorage.setItem("role", response.data.role);
+            console.log(localStorage.getItem("phoneNumber")); // Logs the phone number saved in localStorage
+            console.log(localStorage.getItem("role"));
+
+//             setMessage("Sign-up successful!");
+//             // Redirect based on the user's role
+//             if (formData.role === 'ADMIN') {
+//                 navigate("/admindash");  // Example redirect
+//             } else if (formData.role === 'INSTRUCTOR') {
+//                 navigate("/instructordash");  // Example redirect
+//             } else {
+//                 navigate("/home");  // Example redirect
+//             }
+
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 setError("An admin user already exists. Only one admin is allowed.");

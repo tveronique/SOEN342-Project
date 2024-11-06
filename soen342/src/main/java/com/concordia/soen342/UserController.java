@@ -41,7 +41,8 @@ public class UserController {
     public ResponseEntity<?> signUp(@RequestBody User user) {
         try {
             userService.registerUser(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getRole());
-            return ResponseEntity.ok("User signed up successfully");
+            LogInResponse userResponse = new LogInResponse(user.getPhoneNumber(), user.getRole());
+            return ResponseEntity.ok(userResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
         }
@@ -50,7 +51,8 @@ public class UserController {
     public ResponseEntity<?> signUp(@RequestBody Instructor instructor) {
         try {
             userService.registerInstructor(instructor.getName(), instructor.getPhoneNumber(), instructor.getPassword(), instructor.getRole(), instructor.getSpecialization(), instructor.getAvailableCities());
-            return ResponseEntity.ok("Instructor signed up successfully");
+            LogInResponse userResponse = new LogInResponse(instructor.getPhoneNumber(), instructor.getRole());
+            return ResponseEntity.ok(userResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
         }
@@ -60,7 +62,8 @@ public class UserController {
     public ResponseEntity<?> signUp(@RequestBody Guardian guardian) {
         try {
             userService.registerGuardian(guardian.getName(), guardian.getPhoneNumber(), guardian.getPassword(), guardian.getRole(), guardian.getChildName(), guardian.getChildAge(), guardian.getRelationship());
-            return ResponseEntity.ok("Guardian signed up successfully");
+            LogInResponse userResponse = new LogInResponse(guardian.getPhoneNumber(), guardian.getRole());
+            return ResponseEntity.ok(userResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
         }
