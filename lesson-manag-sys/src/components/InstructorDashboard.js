@@ -1,13 +1,16 @@
 import useFetchOfferings from "../hooks/useFetchOfferings";
-import "../App.css"
+import "../App.css";
 import useFetchUserByPhone from "../hooks/useFetchUserByPhone";
+import { useAuth } from "../context/AuthContext";
 
 function instructorDashboard() {
     const { offerings, error } = useFetchOfferings();
-    const {phoneNumber} = localStorage.getItem("phoneNumber");
-    const {user, errors} = useFetchUserByPhone();
-    const {availableCities} = user.availableCities;
-    const {specialization} = user.specialization;
+    const phoneNumber = localStorage.getItem('phoneNumber');
+    console.log(phoneNumber);
+    const {user, errors} = useFetchUserByPhone(phoneNumber);
+    console.log(user);
+    const availableCities = user.availableCities;
+    const specialization = user.specialization;
 
     if (error) {
         return <div>Error loading offerings: {error.message}</div>;
