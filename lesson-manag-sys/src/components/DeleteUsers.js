@@ -1,8 +1,22 @@
 import useFetchUsers from "../hooks/useFetchUsers";
-import "../App.css";
+import Button from 'react-bootstrap/Button';
+import axios from "axios";
+import "../App.css"
+    
+function DeleteUsers() {
+    const { users, error, setUsers } = useFetchUsers();
 
-export default function UserProfiles() {
-    const { users, error } = useFetchUsers();
+    const handleDelete = async (phoneNumber) => {
+        console.log(phoneNumber);
+        try {
+            await axios.delete(`/api/users/delete/${phoneNumber}`);
+            alert("User deleted successfully!");
+            window.location.reload();
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            alert("Failed to delete user. Please try again.");
+        }
+    };
 
     return (
         <div>
@@ -14,7 +28,6 @@ export default function UserProfiles() {
                 return (
                     user.role !== "ADMIN" && (
                         <div key={user.id} className="viewOfferings">
-                            {/* Display name and role */}
                             <h3>{user.name} - {displayedRole.charAt(0).toUpperCase() + displayedRole.slice(1).toLowerCase()}</h3>
                             <p> 
                                 <b>Phone Number</b>: {user.phoneNumber} <br />
@@ -33,6 +46,8 @@ export default function UserProfiles() {
                                         <b>Relationship to the Child</b>: {user.relationship}
                                     </>
                                 )}
+                                <br></br>
+                                <Button variant="outline-danger" style={{display: 'flex', margin:'0 auto', width:'50%', justifyContent:'center'}} onClick={() => handleDelete(user.phoneNumber)}>Delete</Button>
                             </p>
                         </div>
                     )
@@ -41,3 +56,4 @@ export default function UserProfiles() {
         </div>
     );
 }
+export default DeleteUsers;
