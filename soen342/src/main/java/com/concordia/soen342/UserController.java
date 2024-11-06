@@ -36,6 +36,11 @@ public class UserController {
     public ResponseEntity<Optional<User>> getSingleUserById(@PathVariable ObjectId id) {
         return new ResponseEntity<Optional<User>>(userService.singleUserById(id), HttpStatus.OK);
     }
+
+    @GetMapping("/phone/{phoneNumber}")
+    public ResponseEntity<Optional<User>> getSingleUserByPhoneNumber(@PathVariable String phoneNumber) {
+        return new ResponseEntity<Optional<User>>(userService.singleUserByPhoneNumber(phoneNumber), HttpStatus.OK);
+    }
     
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody User user) {
