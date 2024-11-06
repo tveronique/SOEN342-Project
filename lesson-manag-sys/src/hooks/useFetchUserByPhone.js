@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const useFetchUserByPhone = () => {
+const useFetchUserByPhone = (phoneNumber) => {
   const [user, setUser] = useState([]);
+
   const [error, setError] = useState(null);
 
   useEffect(() => {

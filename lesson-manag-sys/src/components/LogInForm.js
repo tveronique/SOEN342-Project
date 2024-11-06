@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import '../App.css';
@@ -21,11 +21,12 @@ const LogInForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post('/api/users/login', formData);
-            const { role } = response.data;
+            const { phoneNumber,role } = response.data;
             console.log(response.data);
 
-            // Save role in localStorage
+            // Save role and phoneNumber in localStorage
             localStorage.setItem('role', role);
+            localStorage.setItem('phoneNumber', phoneNumber);
 
             // Redirect to dashboard based on role
             if (role === 'ADMIN') {
@@ -40,7 +41,7 @@ const LogInForm = () => {
         }
     };
 
-    return(
+    return (
         <form onSubmit={handleSubmit} className="form-container">
             <h1>Log In</h1>
             <div className="form-group">
@@ -52,6 +53,7 @@ const LogInForm = () => {
                         value={formData.phoneNumber}
                         onChange={handleChange}
                         className="mt-1 p-2 border rounded w-full"
+                        required
                     />
                 </label>
             </div>
@@ -64,12 +66,14 @@ const LogInForm = () => {
                         value={formData.password}
                         onChange={handleChange}
                         className="mt-1 p-2 border rounded w-full"
+                        required
                     />
                 </label>
             </div>
+            {error && <p className="error-message">{error}</p>}
             <button type="submit">Log in</button>
-    </form>
-    )
+        </form>
+    );
 };
 
 export default LogInForm;
