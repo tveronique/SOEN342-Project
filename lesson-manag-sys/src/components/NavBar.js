@@ -17,14 +17,14 @@ const NavBar = () => {
       <Container>
         <Navbar.Brand href="/home">Actify</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="/" className="nav-item">View Offerings</Nav.Link>
-          {role ? ( // Check if a user is logged in 
+          <Nav.Link href="/offerings" className="nav-item">View Offerings</Nav.Link>
+          {role ? (
             <>
               <Nav.Link href="/account" className="nav-item">My Account</Nav.Link>
               {role === 'ADMIN' && ( // If user is admin
                 <Nav.Link href="/admindash" className="nav-item">Admin Dashboard</Nav.Link>
               )}
-              {role === 'INSTRUCTOR' && ( // If user is instructor
+              {role === 'INSTRUCTOR' && (
                 <Nav.Link href="/instructordash" className="nav-item">Instructor Dashboard</Nav.Link>
               )}
               <Nav.Link onClick={handleLogout} className="nav-item">Log Out</Nav.Link>
