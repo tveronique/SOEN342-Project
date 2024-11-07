@@ -2,6 +2,9 @@ import useFetchOfferings from "../hooks/useFetchOfferings";
 import "../App.css";
 import useFetchUserByPhone from "../hooks/useFetchUserByPhone";
 import { useAuth } from "../context/AuthContext";
+import Button from "react-bootstrap/esm/Button";
+import axios from "axios";
+import { useState } from "react";
 
 function instructorDashboard() {
     const { offerings, error } = useFetchOfferings();
@@ -27,6 +30,21 @@ function instructorDashboard() {
         return cityMatch && specializationMatch;
     });
 
+    const handleSubmit = async (offeringId) => {        
+        try {
+            const response = await axios.post('/api/bookings/create', {
+                offeringId: offeringId,
+                instructorPhoneNumber: phoneNumber
+            });
+            if (response.status === 200) {
+                alert('Booking created successfully!');
+            }
+        } catch (error) {
+            console.error('Error creating booking:', error);
+            alert('Failed to create booking.');
+        }
+    };
+
     return (
         <div>
             <h1>Available Offerings for You</h1>
@@ -40,6 +58,8 @@ function instructorDashboard() {
                             <b>Day</b>: {offering.location.schedule.day}s from {offering.location.schedule.startDate} until {offering.location.schedule.endDate} <br />
                             <b>Time</b>: {offering.location.schedule.startTime} - {offering.location.schedule.endTime} <br />
                             <b>{offering.lesson.private ? "Private lesson" : "Group lesson"}</b>
+                            <Button variant="outline-primary" style={{display: 'flex', margin:'0 auto', width:'50%', justifyContent:'center'}} onClick={() => handleSubmit(offering._id)}>Select</Button>
+                            {console.log(offerings._id)}
                         </p>
                     </div>
                 ))

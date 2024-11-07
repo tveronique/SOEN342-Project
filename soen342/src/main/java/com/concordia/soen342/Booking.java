@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import java.util.Set;
 import java.util.HashSet;
+
 @Document(collection = "bookings")
 public class Booking{
     @Id
@@ -13,43 +14,35 @@ public class Booking{
     private ObjectId id;
 
     private ObjectId offeringId;
-    private ObjectId instructorId;
-    private Set<ObjectId> clientIds = new HashSet<ObjectId>();
+    private String instructorPhoneNumber;
+    private Set<String> clientPhoneNumbers = new HashSet<String>();
 
     public Booking(){}
 
-
-    public ObjectId getId() {
-        return this.id;
-    }
-
     public ObjectId getOfferingId() {
-        return this.offeringId;
+        return offeringId;
     }
 
     public void setOfferingId(ObjectId offeringId) {
         this.offeringId = offeringId;
     }
 
-    public ObjectId getInstructorId() {
-        return this.instructorId;
+    public String getInstructorPhoneNumber() {
+        return instructorPhoneNumber;
     }
 
-    public void setInstructorId(ObjectId instructorId) {
-        this.instructorId = instructorId;
+    public void setInstructorPhoneNumber(String instructorPhoneNumber) {
+        this.instructorPhoneNumber = instructorPhoneNumber;
     }
 
-    public Set<ObjectId> getClientIds() {
-        return this.clientIds;
+    public Set<String> getClientPhoneNumbers() {
+        return clientPhoneNumbers;
     }
 
-    public void setClientIds(Set<ObjectId> clientIds) {
-        this.clientIds = clientIds;
+    public void setClientPhoneNumbers(Set<String> clientPhoneNumbers) {
+        this.clientPhoneNumbers = clientPhoneNumbers;
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
 }
 
 /*
