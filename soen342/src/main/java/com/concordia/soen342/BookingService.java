@@ -14,7 +14,7 @@ public class BookingService {
     // Method to create and save a booking
     public Booking createBooking(ObjectId offeringId, String instructorPhoneNumber) {
         Booking booking = new Booking();
-        
+
         booking.setOfferingId(offeringId);
         booking.setInstructorPhoneNumber(instructorPhoneNumber);
 

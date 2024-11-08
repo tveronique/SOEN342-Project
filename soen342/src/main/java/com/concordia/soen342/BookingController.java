@@ -29,10 +29,10 @@ public class BookingController {
 
         // POST endpoint to create a booking
     @PostMapping("/create")
-    public ResponseEntity<String> createNewBooking(@RequestBody ObjectId offeringId, String instructorPhoneNumber) {
+    public ResponseEntity<String> createNewBooking(@RequestBody Booking bookingRequest) {
         try {
             // Call service to create and save booking
-            Booking booking = bookingService.createBooking(offeringId, instructorPhoneNumber);
+            Booking booking = bookingService.createBooking(bookingRequest.getOfferingId(), bookingRequest.getInstructorPhoneNumber());
             System.out.println("Received booking Request: " + booking);
 
             bookingRepository.save(booking);
