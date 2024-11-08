@@ -1,7 +1,7 @@
 export default function Offerings(){
     return(
         <>
-            <h2>Offerings Modifications</h2>
+            <h2>Lesson Offerings</h2>
 
             
         </>

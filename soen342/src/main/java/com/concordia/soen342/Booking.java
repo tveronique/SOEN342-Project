@@ -21,6 +21,7 @@ public class Booking{
 
     public ObjectId getOfferingId() {
         return offeringId;
+
     }
 
     public void setOfferingId(ObjectId offeringId) {
