@@ -17,6 +17,11 @@ public class Booking{
     private String instructorPhoneNumber;
     private Set<String> clientPhoneNumbers = new HashSet<String>();
 
+    public Booking(ObjectId offeringId, String instructorPhoneNumber) {
+        this.offeringId = offeringId;
+        this.instructorPhoneNumber = instructorPhoneNumber;
+    }
+
     public Booking(){}
 
     public ObjectId getOfferingId() {

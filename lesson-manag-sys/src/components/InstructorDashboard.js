@@ -14,6 +14,9 @@ function instructorDashboard() {
     console.log(user);
     const availableCities = user.availableCities;
     const specialization = user.specialization;
+    var offeringId = "";
+    var instructorPhoneNumber = "";
+    var booking = "";
 
     if (error) {
         return <div>Error loading offerings: {error.message}</div>;
@@ -30,13 +33,15 @@ function instructorDashboard() {
         return cityMatch && specializationMatch;
     });
 
-    const handleSubmit = async (offeringId) => {        
+    const handleSubmit = async (offering) => {  
+        offeringId = offering.id;
+        instructorPhoneNumber = phoneNumber;
+        booking = { offeringId, instructorPhoneNumber };
+        
         try {
-            const response = await axios.post('/api/bookings/create', {
-                offeringId: offeringId,
-                instructorPhoneNumber: phoneNumber
-            });
+            const response = await axios.post('/api/bookings/create', booking);
             if (response.status === 200) {
+                console.log(booking);
                 alert('Booking created successfully!');
             }
         } catch (error) {
@@ -57,9 +62,9 @@ function instructorDashboard() {
                             <b>Location</b>: {offering.location.name} {offering.location.space.type}, {offering.location.city} <br />
                             <b>Day</b>: {offering.location.schedule.day}s from {offering.location.schedule.startDate} until {offering.location.schedule.endDate} <br />
                             <b>Time</b>: {offering.location.schedule.startTime} - {offering.location.schedule.endTime} <br />
-                            <b>{offering.lesson.private ? "Private lesson" : "Group lesson"}</b>
-                            <Button variant="outline-primary" style={{display: 'flex', margin:'0 auto', width:'50%', justifyContent:'center'}} onClick={() => handleSubmit(offering._id)}>Select</Button>
-                            {console.log(offerings._id)}
+                            <b>{offering.lesson.private ? "Private lesson" : "Group lesson"}</b><br />
+                            <Button variant="outline-primary" style={{display: 'flex', margin:'0 auto', width:'50%', justifyContent:'center'}} onClick={() => handleSubmit(offering)}>Select</Button>
+                            {console.log(offering.id)}
                         </p>
                     </div>
                 ))
