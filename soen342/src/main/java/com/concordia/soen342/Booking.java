@@ -12,7 +12,7 @@ public class Booking{
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
-    
+  
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId offeringId;
     
