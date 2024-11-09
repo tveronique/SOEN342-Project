@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class BookingService {
@@ -23,6 +22,9 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
+    public List<Booking> allBookings(){
+        return bookingRepository.findAll();
+  
     public List<Booking> getBookingsByInstructorPhone(String phoneNumber) {
         return bookingRepository.findByInstructorPhoneNumber(phoneNumber);
     }
