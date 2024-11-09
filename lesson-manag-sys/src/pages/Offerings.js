@@ -57,7 +57,11 @@ function Offerings() {
             <b>Instructor</b>: {booking.instructor?.name} <br></br>
             <b>Instructor Phone</b>: {booking.instructor?.phoneNumber}
           </p> {console.log(booking.id)}
-          <p className='text-center'><BookingButton booking={booking} /> </p>
+          {booking.offering?.lesson.private && booking.clientPhoneNumbers.length > 0 ? (
+            <p className='text-red-500 font-bold text-center'>Not available</p>
+          ) : (
+            <p className='text-center'><BookingButton booking={booking} /> </p>
+          )}
         </div>
       ))}
     </div>
