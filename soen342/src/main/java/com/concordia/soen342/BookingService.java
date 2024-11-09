@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BookingService {
@@ -36,4 +38,23 @@ public class BookingService {
         booking.getClientPhoneNumbers().add(phoneNumber);
         return bookingRepository.save(booking);
     }
+    
+    public Booking removeClientFromBooking(ObjectId bookingId, String phoneNumber) {
+        // Find the booking by ID
+        Booking booking = bookingRepository.findById(bookingId)
+            .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        // Get the current list of client phone numbers
+        Set<String> clientPhoneNumbers = booking.getClientPhoneNumbers();
+
+        // Remove the phone number if it exists in the list
+        if (clientPhoneNumbers.contains(phoneNumber)) {
+            clientPhoneNumbers.remove(phoneNumber);
+            booking.setClientPhoneNumbers(clientPhoneNumbers);  // Update the booking object
+        } else {
+            throw new RuntimeException("Phone number not found in booking's client list");
+        }
+
+        return bookingRepository.save(booking);
+    } 
 }
