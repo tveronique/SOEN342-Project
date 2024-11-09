@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -40,6 +41,16 @@ public class BookingController {
 
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/booked/{phoneNumber}")
+    public ResponseEntity<List<Booking>> getBookedOfferings(@PathVariable String phoneNumber) {
+        try {
+            List<Booking> bookings = bookingService.getBookingsByInstructorPhone(phoneNumber);
+            return ResponseEntity.ok(bookings);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
