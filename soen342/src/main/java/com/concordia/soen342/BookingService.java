@@ -3,7 +3,8 @@ package com.concordia.soen342;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Set;
+
+import java.util.List;
 
 @Service
 public class BookingService {
@@ -19,5 +20,9 @@ public class BookingService {
         booking.setInstructorPhoneNumber(instructorPhoneNumber);
 
         return bookingRepository.save(booking);
+    }
+
+    public List<Booking> allBookings(){
+        return bookingRepository.findAll();
     }
 }

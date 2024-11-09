@@ -19,25 +19,25 @@ import Offerings from './pages/Offerings';
 
 function App() {
 
-  const [users, setUsers] = useState();
+//   const [users, setUsers] = useState();
 
-  const getUsers = async () => {
+//   const getUsers = async () => {
 
-    try {
+//     try {
 
-      const response = await api.get("/api/users");
-      console.log(response.data);
+//       const response = await api.get("/api/users");
+//       console.log(response.data);
 
-      setUsers(response.data);
+//       setUsers(response.data);
 
-    } catch(err){
-        console.log(err);
-    }
-  }
+//     } catch(err){
+//         console.log(err);
+//     }
+//   }
 
-useEffect(() => {
-  getUsers();
-},[])
+// useEffect(() => {
+//   getUsers();
+// },[])
 
   return (
     <div className="App">

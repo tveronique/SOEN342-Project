@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 
 const NavBar = () => {
   const { role, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
@@ -20,7 +21,9 @@ const NavBar = () => {
           <Nav.Link href="/offerings" className="nav-item">View Offerings</Nav.Link>
           {role ? (
             <>
+              {role === 'CLIENT' && (
               <Nav.Link href="/account" className="nav-item">My Account</Nav.Link>
+              )}
               {role === 'ADMIN' && ( // If user is admin
                 <Nav.Link href="/admindash" className="nav-item">Admin Dashboard</Nav.Link>
               )}

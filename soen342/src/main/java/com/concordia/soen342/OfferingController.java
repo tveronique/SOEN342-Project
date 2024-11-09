@@ -47,8 +47,7 @@ public class OfferingController {
     Offering offering = new Offering(location, lesson);
     System.out.println("Received offeringRequest: " + offering);
 
-    // Save the offering using a service or repository (not shown here)
-    offeringRepository.save(offering); // Assuming you have a repository to handle this
+    offeringRepository.save(offering);
 
     return ResponseEntity.ok("Offering created successfully");
 }
