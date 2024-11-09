@@ -28,13 +28,13 @@ const SignUpForm = () => {
         const { name, value, type, checked } = event.target;
         setFormData((prevState) => ({
             ...prevState,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: type === 'checkbox' ? checked : (name === 'password' ? value : value.toUpperCase()), // Skip uppercase for password
         }));
     };
 
     const handleSpecializationChange = (index, value) => {
         const newSpecializations = [...formData.specialization];
-        newSpecializations[index] = value;
+        newSpecializations[index] = value.toUpperCase();
         setFormData((prevState) => ({
             ...prevState,
             specialization: newSpecializations,
@@ -43,7 +43,7 @@ const SignUpForm = () => {
 
     const handleCityChange = (index, value) => {
         const newCities = [...formData.availableCities];
-        newCities[index] = value;
+        newCities[index] = value.toUpperCase();
         setFormData((prevState) => ({
             ...prevState,
             availableCities: newCities,

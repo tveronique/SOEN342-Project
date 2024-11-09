@@ -33,7 +33,7 @@ const OfferingCrudModal = () => {
           {/* Buttons for each CRUD operation */}
           <ButtonGroup vertical>
             <Button variant="primary" onClick={() => navigateTo('/offerings/create')}>Create Offering</Button>
-            <Button variant="secondary" onClick={() => navigateTo('/offerings')}>View Offerings</Button>
+            <Button variant="secondary" onClick={() => navigateTo('/admin-offerings')}>View Offerings</Button>
             <Button variant="warning" onClick={() => navigateTo('/offerings/update')}>Update Offering</Button>
             <Button variant="danger" onClick={() => navigateTo('/offerings/delete')}>Delete Offering</Button>
           </ButtonGroup>

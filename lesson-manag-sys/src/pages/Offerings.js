@@ -57,7 +57,7 @@ function Offerings() {
             <b>Instructor</b>: {booking.instructor?.name} <br></br>
             <b>Instructor Phone</b>: {booking.instructor?.phoneNumber}
           </p> {console.log(booking.id)}
-          <p className='text-center'><BookingButton bookingId={booking.id} /> </p>
+          <p className='text-center'><BookingButton booking={booking} /> </p>
         </div>
       ))}
     </div>
