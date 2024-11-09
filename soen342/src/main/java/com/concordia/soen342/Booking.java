@@ -12,8 +12,10 @@ public class Booking{
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
-
+    
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId offeringId;
+    
     private String instructorPhoneNumber;
     private Set<String> clientPhoneNumbers = new HashSet<String>();
 

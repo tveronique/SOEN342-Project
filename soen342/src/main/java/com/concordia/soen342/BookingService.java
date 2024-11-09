@@ -24,7 +24,8 @@ public class BookingService {
 
     public List<Booking> allBookings(){
         return bookingRepository.findAll();
-  
+    }
+
     public List<Booking> getBookingsByInstructorPhone(String phoneNumber) {
         return bookingRepository.findByInstructorPhoneNumber(phoneNumber);
     }
