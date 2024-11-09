@@ -63,4 +63,12 @@ public class BookingController {
     public Booking addClientToBooking(@PathVariable ObjectId bookingId, @RequestParam String phoneNumber) {
         return bookingService.addClientToBooking(bookingId, phoneNumber);
     }
+
+    @PutMapping("/{bookingId}/removeClient")
+    public Booking removeClientFromBooking(@PathVariable ObjectId bookingId, @RequestParam String phoneNumber) {
+        System.out.println("Received bookingId: " + bookingId);
+        System.out.println("Received phoneNumber: " + phoneNumber);
+        return bookingService.removeClientFromBooking(bookingId, phoneNumber);
+    }
+
 }
