@@ -13,12 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 //import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-//import java.util.Set;
-//import java.util.HashSet;
 import java.util.List;
-
-//import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -46,10 +41,19 @@ public class BookingController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-
+  
     @GetMapping
     public ResponseEntity<List<Booking>> getAllBookings() {
         return new ResponseEntity<List<Booking>>(bookingService.allBookings(), HttpStatus.OK);
     }
     
+    @GetMapping("/booked/{phoneNumber}")
+    public ResponseEntity<List<Booking>> getBookedOfferings(@PathVariable String phoneNumber) {
+        try {
+            List<Booking> bookings = bookingService.getBookingsByInstructorPhone(phoneNumber);
+            return ResponseEntity.ok(bookings);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
