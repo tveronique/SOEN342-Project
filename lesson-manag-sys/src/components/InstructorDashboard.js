@@ -17,7 +17,7 @@ function InstructorDashboard() {
     useEffect(() => {
         const fetchBookedOfferings = async () => {
             try {
-                const response = await axios.get(`/api/bookings?phoneNumber=${phoneNumber}`);
+                const response = await axios.get(`/api/bookings/booked/${phoneNumber}`);
                 const bookingIds = response.data.map(booking => booking.offeringId);
                 setBookedOfferings(bookingIds);
             } catch (err) {
