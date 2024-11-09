@@ -24,8 +24,16 @@ public class BookingService {
 
     public List<Booking> allBookings(){
         return bookingRepository.findAll();
-  
+    }
+
     public List<Booking> getBookingsByInstructorPhone(String phoneNumber) {
         return bookingRepository.findByInstructorPhoneNumber(phoneNumber);
+    }
+
+    public Booking addClientToBooking(ObjectId bookingId, String phoneNumber) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        booking.getClientPhoneNumbers().add(phoneNumber);
+        return bookingRepository.save(booking);
     }
 }
