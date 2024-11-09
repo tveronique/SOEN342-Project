@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 
-const BookingButton = ({ bookingId }) => {
+const BookingButton = ({ booking }) => {
     const navigate = useNavigate();
 
     const handleBooking = async () => {
@@ -17,11 +17,11 @@ const BookingButton = ({ bookingId }) => {
 
         if (userRole === 'CLIENT') {
             try {
-                await axios.put(`/api/bookings/${bookingId}/addClient`, {
-                    phoneNumber: userPhoneNumber,
+                console.log(userPhoneNumber);
+                await axios.put(`/api/bookings/${booking.id}/addClient`, null, {
+                    params: { phoneNumber: userPhoneNumber }
                 });
                 // await axios.put(`/api/bookings/${bookingId}/addClient?phoneNumber=${userPhoneNumber}`);
-
                 alert("Booking successful!");
             } catch (error) {
                 console.error("Error updating booking:", error);
