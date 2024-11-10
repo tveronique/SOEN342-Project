@@ -12,7 +12,8 @@ function Offerings() {
 
     const fetchDetailsForBookings = async () => {
       const bookingDetailsPromises = bookings.map(async (booking) => {
-        try {      console.log('Booking data:', booking);  // Log the entire booking object
+        try {      
+            console.log('Booking data:', booking);  // Log the entire booking object
             console.log('Offering ID:', booking.offeringId); // Log the offeringId
             console.log('Instructor Phone:', booking.instructorPhoneNumber);
           // Fetch offering details
