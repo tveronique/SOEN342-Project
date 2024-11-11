@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 import '../App.css';
 
 const LogInForm = () => {
@@ -34,8 +35,13 @@ const LogInForm = () => {
             } else if (role === 'INSTRUCTOR') {
                 navigate('/instructordash');
             } else {
-                navigate('/home');
+                navigate('/account');
             }
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 300);
+
         } catch (error) {
             setError('Invalid phone number or password');
         }
@@ -70,8 +76,9 @@ const LogInForm = () => {
                     />
                 </label>
             </div>
+            <div><p>Don't have an account ? <Link to="/signup">Register now</Link></p></div>
             {error && <p className="error-message">{error}</p>}
-            <button type="submit">Log in</button>
+            <Button type="submit">Log In</Button>
         </form>
     );
 };
