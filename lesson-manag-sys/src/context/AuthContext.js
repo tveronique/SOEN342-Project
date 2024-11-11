@@ -6,7 +6,6 @@ export const AuthProvider = ({ children }) => {
     const [role, setRole] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState(null);
 
-    // useEffect to set the role and phoneNumber from localStorage on initial load
     useEffect(() => {
         const storedRole = localStorage.getItem('role');
         const storedPhoneNumber = localStorage.getItem('phoneNumber');
@@ -18,7 +17,7 @@ export const AuthProvider = ({ children }) => {
         if (storedPhoneNumber) {
             setPhoneNumber(storedPhoneNumber);
         }
-    }, []); // This will only run once when the component mounts
+    }, []);
 
     const login = (role, phoneNumber) => {
         setRole(role);

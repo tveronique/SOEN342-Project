@@ -2,7 +2,7 @@ import '../App.css';
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const SignUpForm = () => {
     const [formData, setFormData] = useState({
@@ -23,6 +23,15 @@ const SignUpForm = () => {
     const [isInstructor, setIsInstructor] = useState(false);
 
     const navigate = useNavigate();
+
+    const isAllowedKey = (key) => {
+        return (
+            key === 'Backspace' || 
+            key === 'Delete' || 
+            key === 'ArrowLeft' || 
+            key === 'ArrowRight'
+        );
+    };
 
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -76,34 +85,36 @@ const SignUpForm = () => {
             else if(isGuardian) {
                 const response = await axios.post("/api/users/signup/guardian", formData);
                 console.log("Guardian signed up successfully:", response.data);
-                setMessage("GUardian signed up successfully !");
+                setMessage("Guardian signed up successfully !");
             }
             else {
                 const response = await axios.post("/api/users/signup", formData);
                 console.log("Signed up successfully:", response.data);
                 setMessage("Signed up successfully !");
             }
-            console.log("Response data:", response.data);
-            localStorage.setItem("phoneNumber", response.data.phoneNumber);
-            localStorage.setItem("role", response.data.role);
-            console.log(localStorage.getItem("phoneNumber")); // Logs the phone number saved in localStorage
-            console.log(localStorage.getItem("role"));
 
-//             setMessage("Sign-up successful!");
-//             // Redirect based on the user's role
-//             if (formData.role === 'ADMIN') {
-//                 navigate("/admindash");  // Example redirect
-//             } else if (formData.role === 'INSTRUCTOR') {
-//                 navigate("/instructordash");  // Example redirect
-//             } else {
-//                 navigate("/home");  // Example redirect
-//             }
+            //Log in right after register
+            localStorage.setItem("phoneNumber", formData.phoneNumber);
+            localStorage.setItem("role", formData.role);
+            
+            // Redirect based on the user's role
+            if (formData.role === 'ADMIN') {
+                navigate("/admindash");
+            } else if (formData.role === 'INSTRUCTOR') {
+                navigate("/instructordash");
+            } else {
+                navigate("/account");
+            }
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
 
         } catch (error) {
             if (error.response && error.response.status === 400) {
-                setError("An admin user already exists. Only one admin is allowed.");
+                setMessage("An admin user already exists. Only one admin is allowed.");
             } else {
-                setError("An error occurred. Please try again.");
+                setMessage("An error occurred. Please try again.");
             }
         };
     };
@@ -128,10 +139,17 @@ const SignUpForm = () => {
                     Phone Number:
                     <input
                         type="text"
+                        placeholder='1234567890'
                         name="phoneNumber"
                         value={formData.phoneNumber}
                         onChange={handleChange}
                         className="mt-1 p-2 border rounded w-full"
+                        maxLength={10}
+                        onKeyDown={(event) => {
+                            if (!/[0-9]/.test(event.key) && !(isAllowedKey(event.key))) {
+                                event.preventDefault();
+                                }
+                        }}
                     />
                 </label>
             </div>
@@ -280,6 +298,7 @@ const SignUpForm = () => {
                 </div>
             )}
             <br></br>
+            <div className='mt=4'><p>Already have an account ? <Link to="/login">Log In</Link></p></div>
             <Button type="submit">Sign Up</Button>
             {message && <p>{message}</p>}
             {error && <div className="mt-4 text-red-500">{error}</div>}
