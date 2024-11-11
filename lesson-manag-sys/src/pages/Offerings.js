@@ -14,10 +14,11 @@ function Offerings() {
   useEffect(() => {
     const fetchDetailsForBookings = async () => {
       const bookingDetailsPromises = bookings.map(async (booking) => {
-        try {
-          console.log('Booking data:', booking); // Log the entire booking object
-          console.log('Offering ID:', booking.offeringId); // Log the offeringId
-          console.log('Instructor Phone:', booking.instructorPhoneNumber);
+
+        try {      
+            console.log('Booking data:', booking);
+            console.log('Offering ID:', booking.offeringId);
+            console.log('Instructor Phone:', booking.instructorPhoneNumber);
 
           // Fetch offering details
           const offeringResponse = await axios.get(`/api/offerings/${booking.offeringId}`);
