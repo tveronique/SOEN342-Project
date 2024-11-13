@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookingRepository extends MongoRepository<Booking, ObjectId> {
     List<Booking> findByInstructorPhoneNumber(String instructorPhoneNumber);
+    boolean existsByOfferingId(ObjectId offeringId);
+    void deleteByOfferingId(ObjectId offeringId);
 }

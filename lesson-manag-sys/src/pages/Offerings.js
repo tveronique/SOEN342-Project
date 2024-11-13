@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
 import useFetchBookings from '../hooks/useFetchBookings';
 import BookingButton from '../components/BookingButton';
 import { BounceLoader } from 'react-spinners';
-import "../App.css"
+import "../App.css";
 
 function Offerings() {
   const { bookings, error } = useFetchBookings();
@@ -13,33 +13,34 @@ function Offerings() {
 
   useEffect(() => {
     const fetchDetailsForBookings = async () => {
-      const bookingDetailsPromises = bookings.map(async (booking) => {
-
-        try {      
+      const bookingDetailsPromises = bookings
+        .filter(booking => booking.instructorPhoneNumber) // Only include bookings with an instructorPhoneNumber
+        .map(async (booking) => {
+          try {
             console.log('Booking data:', booking);
             console.log('Offering ID:', booking.offeringId);
             console.log('Instructor Phone:', booking.instructorPhoneNumber);
 
-          // Fetch offering details
-          const offeringResponse = await axios.get(`/api/offerings/${booking.offeringId}`);
-          const offeringData = offeringResponse.data;
-          console.log("offering data:", offeringData);
+            // Fetch offering details
+            const offeringResponse = await axios.get(`/api/offerings/${booking.offeringId}`);
+            const offeringData = offeringResponse.data;
+            console.log("offering data:", offeringData);
 
-          // Fetch instructor details
-          const instructorResponse = await axios.get(`/api/users/phone/${booking.instructorPhoneNumber}`);
-          const instructorData = instructorResponse.data;
+            // Fetch instructor details
+            const instructorResponse = await axios.get(`/api/users/phone/${booking.instructorPhoneNumber}`);
+            const instructorData = instructorResponse.data;
 
-          return { ...booking, offering: offeringData, instructor: instructorData };
-        } catch (error) {
-          console.error('Error fetching details:', error);
-          return { ...booking, offering: null, instructor: null };
-        }
-      });
+            return { ...booking, offering: offeringData, instructor: instructorData };
+          } catch (error) {
+            console.error('Error fetching details:', error);
+            return { ...booking, offering: null, instructor: null };
+          }
+        });
 
       // Wait for all booking details to be fetched
       const bookingDetails = await Promise.all(bookingDetailsPromises);
-      setDetailedBookings(bookingDetails);
-      console.log("booking details:", bookingDetails);
+      setDetailedBookings(bookingDetails.filter(b => b.instructor)); // Filter out entries without an instructor
+      console.log("Filtered booking details:", bookingDetails);
 
       // Set loading to false after all data is fetched
       setLoading(false);
@@ -72,7 +73,7 @@ function Offerings() {
               <b>Time</b>: {booking.offering?.location.schedule.startTime} - {booking.offering?.location.schedule.endTime} <br />
               <b>{booking.offering?.lesson.private ? "Private lesson" : "Group lesson"}</b> <br></br>
               <b>Instructor</b>: {booking.instructor?.name}
-              {localStorage.getItem('role') === 'ADMIN' && (<><br></br><b>Instructor Phone Number:</b>: {booking.instructor?.phoneNumber} </>)}
+              {localStorage.getItem('role') === 'ADMIN' && (<><br></br><b>Instructor Phone Number:</b> {booking.instructor?.phoneNumber}</>)}
             </p>
             {console.log(booking.id)}
             {booking.offering?.lesson.private && booking.clientPhoneNumbers.length > 0 ? (

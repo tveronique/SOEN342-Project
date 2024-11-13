@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,6 +70,16 @@ public class BookingController {
         System.out.println("Received bookingId: " + bookingId);
         System.out.println("Received phoneNumber: " + phoneNumber);
         return bookingService.removeClientFromBooking(bookingId, phoneNumber);
+    }
+
+    @DeleteMapping("/delete/{offeringId}")
+    public ResponseEntity<String> deleteOffering(@PathVariable ObjectId offeringId) {
+        if (bookingRepository.existsByOfferingId(offeringId)) {
+            bookingRepository.deleteByOfferingId(offeringId);
+            return ResponseEntity.ok("Booking deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
+        }
     }
 
 }

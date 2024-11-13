@@ -16,31 +16,33 @@ import DeleteOffering from './components/DeleteOffering';
 import DeleteUsers from './components/DeleteUsers';
 import InstructorDashboard from './pages/InstructorDashboard'
 import Offerings from './pages/Offerings';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
 
-//   const [users, setUsers] = useState();
+const [users, setUsers] = useState();
 
-//   const getUsers = async () => {
+  const getUsers = async () => {
 
-//     try {
+    try {
 
-//       const response = await api.get("/api/users");
-//       console.log(response.data);
+      const response = await api.get("/api/users");
+      console.log(response.data);
 
-//       setUsers(response.data);
+      setUsers(response.data);
 
-//     } catch(err){
-//         console.log(err);
-//     }
-//   }
+    } catch(err){
+        console.log(err);
+    }
+  }
 
-// useEffect(() => {
-//   getUsers();
-// },[])
+useEffect(() => {
+  getUsers();
+},[])
 
   return (
     <div className="App">
+      <AuthProvider>
       <BrowserRouter>
       <NavBar />
         <Routes>
@@ -62,6 +64,7 @@ function App() {
           <Route path='/offerings' element = {<Offerings />} />
         </Routes>
       </BrowserRouter>
+      </AuthProvider>
     </div>
   );
 }
