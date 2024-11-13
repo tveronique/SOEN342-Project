@@ -11,6 +11,7 @@ function DeleteOffering() {
         try {
             await axios.delete(`/api/offerings/delete/${offeringId}`);
             alert("Offering deleted successfully!");
+            await axios.delete(`/api/bookings/delete/${offeringId}`);
             window.location.reload();
         } catch (error) {
             console.error("Error deleting offering:", error);
