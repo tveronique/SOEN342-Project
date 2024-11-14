@@ -1,48 +1,62 @@
 import { useState } from "react";
 import useFetchOfferings from "../hooks/useFetchOfferings";
 import Button from 'react-bootstrap/Button';
-import "../App.css"
+import "../App.css";
 import UpdateOfferingForm from './UpdateOfferingsForm';
-    
+
 function UpdateOfferings() {
     const { offerings, error } = useFetchOfferings();
-    const [editingOffering, setEditingOffering] = useState(null); // Track offering for editing
+    const [editingOffering, setEditingOffering] = useState(null);
 
     const handleEdit = (offering) => {
-        setEditingOffering(offering); // Set the offering to be edited
-
+        setEditingOffering(offering);
+        // To scroll down automatically to the UpdateOfferingForm
+        setTimeout(() => {
+            const formElement = document.getElementById('update-form');
+            if (formElement) {
+                formElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 100);
     };
 
     const handleUpdate = (updatedOffering) => {
-        // Update offerings list with new data
-        setEditingOffering(null); // Close the form after updating
+        setEditingOffering(null);
     };
 
     return (
         <div>
             <h1>Update Offerings</h1>
 
-            {offerings.map((offering => (
+            {offerings.map((offering) => (
                 <div key={offering._id} className="viewOfferings">
                     <h3>{offering.lesson.type} Lesson</h3>
-                    <p> <b>Location</b>: {offering.location.name} {offering.location.space.type}, {offering.location.city} <br></br>
-                       <b>Day</b>: {offering.location.schedule.day}s from {offering.location.schedule.startDate} until {offering.location.schedule.endDate}<br></br>
-                       <b>Time</b>: {offering.location.schedule.startTime} - {offering.location.schedule.endTime} <br></br>
-                       <b>{offering.lesson.private ? "Private lesson" : "Group lesson"}</b> <br></br><br></br>
-                       <Button variant="outline-primary" style={{display: 'flex', margin:'0 auto', width:'50%', justifyContent:'center'}} onClick={() => handleEdit(offering)}>Edit</Button>
+                    <p>
+                        <b>Location</b>: {offering.location.name} {offering.location.space.type}, {offering.location.city} <br />
+                        <b>Day</b>: {offering.location.schedule.day}s from {offering.location.schedule.startDate} until {offering.location.schedule.endDate}<br />
+                        <b>Time</b>: {offering.location.schedule.startTime} - {offering.location.schedule.endTime} <br />
+                        <b>{offering.lesson.private ? "Private lesson" : "Group lesson"}</b> <br /><br />
+                        <Button
+                            variant="outline-primary"
+                            style={{ display: 'flex', margin: '0 auto', width: '50%', justifyContent: 'center' }}
+                            onClick={() => handleEdit(offering)}
+                        >
+                            Edit
+                        </Button>
                     </p>
-                    </div>
-            )))}
+                </div>
+            ))}
 
             {editingOffering && (
-                <UpdateOfferingForm
-                    offering={editingOffering}
-                    onClose={() => setEditingOffering(null)}
-                    onUpdate={handleUpdate}
-                />
+                <div id="update-form">
+                    <UpdateOfferingForm
+                        offering={editingOffering}
+                        onClose={() => setEditingOffering(null)}
+                        onUpdate={handleUpdate}
+                    />
+                </div>
             )}
-
         </div>
     );
 }
+
 export default UpdateOfferings;
