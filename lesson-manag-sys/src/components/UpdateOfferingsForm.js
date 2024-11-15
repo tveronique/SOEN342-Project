@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";  
 import Button from 'react-bootstrap/Button';
 
@@ -15,8 +15,23 @@ const UpdateOfferingsForm = ({ offering, onClose, onUpdate }) => {
     const [isPrivate, setIsPrivate] = useState(offering.lesson.private);
 
     const [message, setMessage] = useState('');
+    const [existingOfferings, setExistingOfferings] = useState([]);
 
-    const handleSubmit = async (e) => {
+    useEffect(() => {
+        const fetchExistingOfferings = async () => {
+            try {
+              const response = await axios.get("/api/offerings");
+              setExistingOfferings(response.data);
+              console.log("Offering fetched successfully:", response.data);
+            } catch (error) {
+          console.error("Error fetching offering:", error);
+        };
+        };
+  
+        fetchExistingOfferings();
+      }, [])
+      
+      const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Offering Object:", offering);
         console.log("Offering ID:", offering.id);
@@ -67,7 +82,8 @@ const UpdateOfferingsForm = ({ offering, onClose, onUpdate }) => {
                 lesson: { ...offering.lesson, type: lessonType, private: isPrivate },
                 location: { 
                     ...offering.location, 
-                    name: locationName, 
+                    name: locationName,
+                    city: city, 
                     space: { ...offering.location.space, type: spaceType }, 
                     schedule: { day, startTime, endTime, startDate, endDate }
                 }
