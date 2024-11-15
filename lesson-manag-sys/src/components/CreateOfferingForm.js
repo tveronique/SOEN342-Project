@@ -69,6 +69,7 @@ const CreateOfferingForm = () => {
        return (
            offering.location.name === formData.locationName &&
            offering.location.space.type === formData.spaceType &&
+           offering.location.city === formData.city &&
            offering.location.schedule.day === formData.day 
            &&
            ((newOfferingStart === existingStart && newOfferingEnd === existingEnd)
