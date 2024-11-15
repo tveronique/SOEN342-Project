@@ -65,7 +65,7 @@ const CreateOfferingForm = () => {
        const existingStart = new Date(`${offering.location.schedule.startDate}T${offering.location.schedule.startTime}`);
        const existingEnd = new Date(`${offering.location.schedule.endDate}T${offering.location.schedule.endTime}`);
 
-       // Check if new offering overlaps with an existing one in the same location and space
+       //Check if new offering overlaps with an existing one in the same location and space
        return (
            offering.location.name === formData.locationName &&
            offering.location.space.type === formData.spaceType &&
@@ -79,6 +79,7 @@ const CreateOfferingForm = () => {
            || (newOfferingStart < existingEnd && existingEnd > newOfferingEnd)
            )
        );
+      
    });
 
     try {
