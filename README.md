@@ -7,3 +7,5 @@
   <li>Irina Zhukova - 40248017 - ira.zhu.2003@gmail.com</li>
   <li>Veronique Touma - 40249766 - veroniqueconcordia@gmail.com</li>
 </ul>
+<h2>Video</h2>
+<p>https://www.youtube.com/watch?v=jkgWH6V1Hpw&ab_channel=IrinaZhukova</p>
