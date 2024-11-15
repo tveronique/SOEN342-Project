@@ -15,7 +15,7 @@ function DeleteOffering() {
             window.location.reload();
         } catch (error) {
             console.error("Error deleting offering:", error);
-            alert("Failed to delete offering. Please try again.");
+            //alert("Failed to delete offering. Please try again.");
         }
     };
 
