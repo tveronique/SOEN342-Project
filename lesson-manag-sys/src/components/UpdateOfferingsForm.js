@@ -14,12 +14,54 @@ const UpdateOfferingsForm = ({ offering, onClose, onUpdate }) => {
     const [endDate, setEndDate] = useState(offering.location.schedule.endDate);
     const [isPrivate, setIsPrivate] = useState(offering.lesson.private);
 
+    const [message, setMessage] = useState('');
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Offering Object:", offering);
         console.log("Offering ID:", offering.id);
 
+        if (new Date(startDate) > new Date(endDate)) {
+            setMessage('End date cannot be before the start date.');
+            return;
+          }
+        
+          // Validate times
+          if (startTime >= endTime) {
+              setMessage('End time must be after start time.');
+              return;
+          }
+      
+         // Convert new offering dates and times to Date objects for comparison
+         const newOfferingStart = new Date(`${startDate}T${startTime}`);
+         const newOfferingEnd = new Date(`${endDate}T${endTime}`);
+      
+         // Check for overlapping offerings
+         const isOverlapping = existingOfferings.some(offering => {
+             const existingStart = new Date(`${offering.location.schedule.startDate}T${offering.location.schedule.startTime}`);
+             const existingEnd = new Date(`${offering.location.schedule.endDate}T${offering.location.schedule.endTime}`);
+      
+             // Check if new offering overlaps with an existing one in the same location and space
+             return (
+                 offering.location.name === locationName &&
+                 offering.location.space.type === spaceType &&
+                 offering.location.schedule.day === day 
+                 &&
+                 ((newOfferingStart === existingStart && newOfferingEnd === existingEnd)
+                 || (newOfferingStart < existingStart && newOfferingEnd > existingEnd)
+                 || (newOfferingStart > existingStart && newOfferingEnd < existingEnd)
+                 || (newOfferingStart > existingStart && existingEnd < newOfferingEnd)
+                 || (newOfferingStart < existingEnd && existingEnd > newOfferingEnd)
+                 )
+             );
+         });
+
         try {
+            if (isOverlapping) {
+                setMessage('Error: An offering at this location overlaps with an existing offering.');
+                return; // Prevent submission
+            }
+
             const updatedOffering = {
                 ...offering,
                 lesson: { ...offering.lesson, type: lessonType, private: isPrivate },
@@ -140,6 +182,7 @@ const UpdateOfferingsForm = ({ offering, onClose, onUpdate }) => {
             </div>
             <Button type="submit" variant="outline-primary" size="lg">Save</Button>
             <Button type="button" variant="outline-primary" size="lg" onClick={onClose}>Cancel</Button>
+            {message && <p className="mt-4 text-red-500">{message}</p>}
         </form>
     );
 }
