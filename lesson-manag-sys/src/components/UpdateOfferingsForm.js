@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";  
 import Button from 'react-bootstrap/Button';
+import useFetchOfferings from "../hooks/useFetchOfferings";
 
 const UpdateOfferingsForm = ({ offering, onClose, onUpdate }) => {
     const [lessonType, setLessonType] = useState(offering.lesson.type.toUpperCase());
@@ -15,21 +16,8 @@ const UpdateOfferingsForm = ({ offering, onClose, onUpdate }) => {
     const [isPrivate, setIsPrivate] = useState(offering.lesson.private);
 
     const [message, setMessage] = useState('');
-    const [existingOfferings, setExistingOfferings] = useState([]);
-
-    useEffect(() => {
-        const fetchExistingOfferings = async () => {
-            try {
-              const response = await axios.get("/api/offerings");
-              setExistingOfferings(response.data);
-              console.log("Offering fetched successfully:", response.data);
-            } catch (error) {
-          console.error("Error fetching offering:", error);
-        };
-        };
-  
-        fetchExistingOfferings();
-      }, [])
+    const existingOfferings= useFetchOfferings().offerings;
+    console.log("blop",existingOfferings);
       
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,24 +43,37 @@ const UpdateOfferingsForm = ({ offering, onClose, onUpdate }) => {
          const isOverlapping = existingOfferings.some(offering => {
              const existingStart = new Date(`${offering.location.schedule.startDate}T${offering.location.schedule.startTime}`);
              const existingEnd = new Date(`${offering.location.schedule.endDate}T${offering.location.schedule.endTime}`);
-      
+            
+             console.log(newOfferingStart);
+             console.log(newOfferingEnd);
+             console.log(existingStart);
+             console.log(existingEnd);
              // Check if new offering overlaps with an existing one in the same location and space
              return (
                  offering.location.name === locationName &&
+                 offering.location.city === city &&
                  offering.location.space.type === spaceType &&
                  offering.location.schedule.day === day 
                  &&
-                 ((newOfferingStart === existingStart && newOfferingEnd === existingEnd)
-                 || (newOfferingStart < existingStart && newOfferingEnd > existingEnd)
-                 || (newOfferingStart > existingStart && newOfferingEnd < existingEnd)
-                 || (newOfferingStart > existingStart && existingEnd < newOfferingEnd)
-                 || (newOfferingStart < existingEnd && existingEnd > newOfferingEnd)
+                 ((offering.location.schedule.startDate === startDate && offering.location.schedule.endDate === endDate)
+                 || (offering.location.schedule.startDate > startDate && offering.location.schedule.endDate < endDate)
+                 || (offering.location.schedule.startDate < startDate && offering.location.schedule.endDate > endDate)
+                 || (offering.location.schedule.startDate < startDate && offering.location.schedule.endDate < endDate)
+                 || (offering.location.schedule.startDate > startDate && offering.location.schedule.endDate > endDate)
+                 )
+                 &&
+                 ((offering.location.schedule.startTime === startTime && offering.location.schedule.endTime === endTime)
+                 || (offering.location.schedule.startTime < startTime && offering.location.schedule.endTime > endTime)
+                 || (offering.location.schedule.startTime > startTime && offering.location.schedule.endTime < endTime)
+                 || (offering.location.schedule.startTime > startTime && offering.location.schedule.endTime < endTime)
+                 || (offering.location.schedule.startTime < startTime && offering.location.schedule.endTime > endTime)
                  )
              );
          });
 
         try {
             if (isOverlapping) {
+                console.log(isOverlapping);
                 setMessage('Error: An offering at this location overlaps with an existing offering.');
                 return; // Prevent submission
             }
